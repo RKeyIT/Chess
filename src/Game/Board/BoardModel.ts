@@ -10,7 +10,7 @@ interface ISingleField {
 export class Board {
   private static instance: Board | null;
 
-  private field: FieldTypeObject;
+  readonly field: FieldTypeObject;
 
   private constructor() {
     this.field = this.initializeField();
