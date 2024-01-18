@@ -1,18 +1,21 @@
 import { ReactNode } from 'react';
 import { Coordinates, xType, xyType, yType } from '../Coordinates/Coordinates';
 import { Color } from '../types';
+import { CellComponent } from './CellComponent';
 
 export class Cell {
   readonly component: ReactNode;
-  readonly coordinate: xyType;
+  readonly coordinates: xyType;
   readonly x: xType;
   readonly y: yType;
   readonly color: Color;
 
-  constructor(coordinate: xyType) {
-    this.coordinate = coordinate;
-    [this.x, this.y] = Coordinates.xyStringToArr(coordinate);
+  constructor(coordinates: xyType) {
+    this.coordinates = coordinates;
+    this.x = Coordinates.getX(coordinates);
+    this.y = Coordinates.getY(coordinates);
     this.color = this.defineColor(this.x, this.y);
+    this.component = <CellComponent CellModel={this} />;
   }
 
   private defineColor(x: xType, y: yType): Color {
