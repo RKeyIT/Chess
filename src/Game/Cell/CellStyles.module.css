@@ -1,0 +1,54 @@
+.Cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    transition: all var(--trans-200ms);
+    position: relative
+}
+
+.Cell.white {
+    background-color: var(--cell-white);
+}
+
+.Cell.black {
+    background-color: var(--cell-black);
+}
+
+
+.highlighter {
+    border-radius: 5%;
+    transition: all var(--trans-200ms);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.Cell:hover .highlighter {
+    background-color: var(--highlighter-1-trans);
+}
+
+.Cell.white:hover .highlighter {
+    box-shadow: inset 0 0 calc(var(--cell-size) / 2) 0 burlywood;
+}
+
+.Cell.black:hover .highlighter {
+    box-shadow: inset 0 0 calc(var(--cell-size) / 2) 0 brown;
+}
+
+.coordinates {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+    font-weight: 900;
+    font-size: 1.25rem;
+    -webkit-user-select: none;
+    user-select: none;
+}
