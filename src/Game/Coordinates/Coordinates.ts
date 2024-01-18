@@ -9,6 +9,24 @@ export class Coordinates {
   public static xArr: xType[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
   public static yArr: yType[] = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
+  public static stringToArr(x: xType, y: yType): xyTypeAsArray {
+    return [x, y];
+  }
+  public static arrToString([x, y]: xyTypeAsArray): xyType {
+    return `${x}${y}`;
+  }
+  public static getX(xy: xyType | xyTypeAsArray): xType {
+    return xy[0] as xType;
+  }
+  public static getY(xy: xyType | xyTypeAsArray): yType {
+    return xy[1] as yType;
+  }
+  public static indexOf(xy: xyType | xyTypeAsArray): number {
+    return typeof xy === 'string'
+      ? this.xyArray.indexOf(xy)
+      : this.xyArray.indexOf(`${xy[0]}${xy[1]}`);
+  }
+
   private static createXYArray(): xyType[] {
     const array: xyType[] = [];
 
