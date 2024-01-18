@@ -2,16 +2,12 @@ export type xType = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H';
 export type yType = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8';
 export type xyType = `${xType}${yType}`;
 export type xyTypeAsArray = [xType, yType];
-export type xyObjectFieldsType = Record<xyType, string>;
 
 export class Coordinates {
-  // SECTION - Static fields
   public static xArr: xType[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
   public static yArr: yType[] = ['1', '2', '3', '4', '5', '6', '7', '8'];
   public static xyArray: xyType[] = this.createXYArray();
-  // !SECTION
 
-  // SECTION - Static methods
   public static stringToArr(x: xType, y: yType): xyTypeAsArray {
     return [x, y];
   }
@@ -53,5 +49,4 @@ export class Coordinates {
 
     return array;
   }
-  // !SECTION
 }
