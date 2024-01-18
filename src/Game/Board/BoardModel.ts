@@ -1,11 +1,21 @@
+import { Coordinates, xyType } from '../Coordinates/Coordinates';
+
+export type FieldTypeObject = Record<xyType, ISingleField>;
+
+interface ISingleField {
+  cell: null;
+  piece: null;
+}
+
 export class Board {
-  // SECTION - Static fields
   private static instance: Board | null;
-  // !SECTION
 
-  private constructor() {}
+  private field: FieldTypeObject;
 
-  // SECTION - Static methods
+  private constructor() {
+    this.field = this.initializeField();
+  }
+
   public static getInstance() {
     if (!Board.instance) {
       Board.instance = new Board();
@@ -13,5 +23,17 @@ export class Board {
 
     return Board.instance;
   }
-  // !SECTION
+
+  private initializeField(): FieldTypeObject {
+    const field = {} as FieldTypeObject;
+
+    Coordinates.xyArray.forEach((xy: xyType) => {
+      this.field[xy] = {
+        cell: null,
+        piece: null,
+      };
+    });
+
+    return field;
+  }
 }
