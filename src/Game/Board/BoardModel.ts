@@ -28,7 +28,7 @@ export class Board {
     const field = {} as FieldTypeObject;
 
     Coordinates.xyArray.forEach((xy: xyType) => {
-      this.field[xy] = {
+      field[xy] = {
         cell: null,
         piece: null,
       };
