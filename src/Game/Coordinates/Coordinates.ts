@@ -8,7 +8,11 @@ export class Coordinates {
   public static yArr: yType[] = ['1', '2', '3', '4', '5', '6', '7', '8'];
   public static xyArray: xyType[] = this.createXYArray();
 
-  public static stringToArr(x: xType, y: yType): xyTypeAsArray {
+  public static xyStringToArr(xy: xyType): xyTypeAsArray {
+    return [xy[0], xy[1]] as xyTypeAsArray;
+  }
+
+  public static xyToArr(x: xType, y: yType): xyTypeAsArray {
     return [x, y];
   }
 
