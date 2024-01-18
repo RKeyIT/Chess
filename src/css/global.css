@@ -1,29 +1,3 @@
 body {
     background-color: rgb(140, 140, 140);
 }
-
-.Piece {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-.Piece.white {
-    color: whitesmoke;
-    stroke: black;
-    stroke-width: 1px;
-}
-
-.Piece.black {
-    color: black;
-    stroke: white;
-    stroke-width: 1px;
-}
-
-.Piece:active {
-    color: red;
-    width: 110%;
-    height: 110%;
-}
