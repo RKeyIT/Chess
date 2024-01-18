@@ -1,0 +1,19 @@
+:root {
+    /* SIZES */
+    --cell-size: 64px;
+    --board-size: calc(var(--cell-size) * 10);
+    --field-size: calc(var(--cell-size) * 8);
+
+    /* TRANSITION */
+    --trans-200ms: 200ms;
+    --trans-500ms: 500ms;
+    --trans-1s: 1s;
+
+    /* COLORS */
+    --cell-black: rgb(165, 40, 40);
+    --cell-white: rgb(220, 185, 135);
+    --highlighter-1: rgb(100, 50, 150);
+    --highlighter-1-trans: rgba(100, 50, 150, 0.6);
+    --highlighter-2: rgb(100, 190, 190);
+    --highlighter-2-trans: rgba(100, 190, 190, 0.6);
+}
