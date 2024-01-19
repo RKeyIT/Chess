@@ -23,9 +23,10 @@ export class Board {
     const newBoard = {} as BoardTypeObject;
 
     Coordinates.xyArray.forEach((coords: xyType) => {
-      newBoard[coords] = {} as IBoardField;
-      newBoard[coords].cell = new Cell(coords);
-      newBoard[coords].piece = null;
+      newBoard[coords] = {
+        cell: new Cell(coords),
+        piece: null,
+      };
     });
 
     newBoard['C3'].piece = new Pawn('C3', 'white');
