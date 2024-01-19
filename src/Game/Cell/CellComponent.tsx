@@ -6,13 +6,14 @@ interface ICellProps {
 }
 
 export function CellComponent({ CellModel }: ICellProps) {
-  const { color, coordinates } = CellModel;
+  const { color, coordinates, boardField } = CellModel;
+  const piece = boardField.piece;
 
   return (
     <div className={`${styles.Cell} ${styles[color]}`}>
       <div className={styles.coordinates}>{coordinates}</div>
       <div className={styles.highlighter}></div>
-      {/* {piece && piece.component} */}
+      {piece && piece.component}
     </div>
   );
 }
