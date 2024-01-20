@@ -10,6 +10,7 @@
     --trans-1s: 1s;
 
     /* COLORS */
+    --active: rgb(175, 255, 45);
     --cell-black: rgb(165, 40, 40);
     --cell-white: rgb(220, 185, 135);
     --highlighter-1: rgb(100, 50, 150);

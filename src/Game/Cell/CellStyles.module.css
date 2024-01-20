@@ -5,6 +5,11 @@
     position: relative
 }
 
+.Cell.active,
+.Cell.active:hover .highlighter {
+    box-shadow: inset 0 0 calc(var(--cell-size) / 2) 0 var(--active) !important;
+}
+
 .Cell.white {
     background-color: var(--cell-white);
 }
