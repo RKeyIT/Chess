@@ -39,4 +39,13 @@ export class Board {
   public static getFieldLink(coordinates: xyType): IBoardField {
     return Board.instance.board[coordinates];
   }
+
+  public static movePiece = (piece: Piece, nextCoords: xyType) => {
+    const prevCoords = piece.coordinates;
+
+    this.getFieldLink(nextCoords).piece = piece;
+    piece.setNewCoords(nextCoords);
+
+    this.getFieldLink(prevCoords).piece = null;
+  };
 }

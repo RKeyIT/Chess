@@ -12,23 +12,16 @@ export abstract class Piece {
 
   constructor(coords: xyType, color: Color) {
     this.color = color;
+    this.setNewCoords(coords);
+  }
+
+  setNewCoords(coords: xyType) {
     this._coordinates = coords;
     this._x = Coordinates.getX(coords);
     this._y = Coordinates.getY(coords);
   }
 
-  // setNewCoords(coords: xyType) {
-  //   const prevCoords = this._coordinates;
-  //   const fieldLink = Board.getFieldLink(coords);
-  //   fieldLink.piece = null;
-
-  //   this._coordinates = coords;
-  //   this._x = Coordinates.getX(coords);
-  //   this._y = Coordinates.getY(coords);
-  //   fieldLink.piece = this;
-
-  //   console.log(Board.getFieldLink(coords));
-  // }
+  move = (): void => {};
 
   get coordinates() {
     return this._coordinates;
