@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
 import { xyType } from '../../Coordinates/Coordinates';
-import { Color } from '../../types';
+import { Color, PieceNames } from '../../types';
 import { Piece } from '../PieceAbstraction';
-import { PawnComponent } from './PawnComponent';
 import { Board } from '../../Board/BoardModel';
+import { PieceComponent } from '../PieceComponent';
 
 export class Pawn extends Piece {
-  readonly component: ReactNode = (<PawnComponent model={this} />);
+  readonly name = PieceNames.PAWN;
+  readonly component: ReactNode = (<PieceComponent model={this} />);
 
   constructor(coords: xyType, color: Color) {
     super(coords, color);
