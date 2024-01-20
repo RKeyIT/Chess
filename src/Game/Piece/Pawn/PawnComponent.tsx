@@ -1,9 +1,5 @@
 import styles from '../Piece.module.css';
-import { Piece } from '../PieceAbstraction';
-
-interface IPieceProps {
-  model: Piece;
-}
+import { IPieceProps } from '../PieceComponent';
 
 export function PawnComponent({ model }: IPieceProps) {
   return (

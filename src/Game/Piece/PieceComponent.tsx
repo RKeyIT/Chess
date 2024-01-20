@@ -7,17 +7,17 @@ import { Piece } from './PieceAbstraction';
 import { QueenComponent } from './Queen/QueenComponent';
 import { RookComponent } from './Rook/RookComponent';
 
-interface IPieceProps {
+export interface IPieceProps {
   model: Piece;
 }
 
 export function PieceComponent({ model }: IPieceProps) {
   const pieceObject = {
-    [PieceNames.KING]: <KingComponent />,
-    [PieceNames.QUEEN]: <QueenComponent />,
-    [PieceNames.BISHOP]: <BishopComponent />,
-    [PieceNames.KNIGHT]: <KnightComponent />,
-    [PieceNames.ROOK]: <RookComponent />,
+    [PieceNames.KING]: <KingComponent model={model} />,
+    [PieceNames.QUEEN]: <QueenComponent model={model} />,
+    [PieceNames.BISHOP]: <BishopComponent model={model} />,
+    [PieceNames.KNIGHT]: <KnightComponent model={model} />,
+    [PieceNames.ROOK]: <RookComponent model={model} />,
     [PieceNames.PAWN]: <PawnComponent model={model} />,
   };
 

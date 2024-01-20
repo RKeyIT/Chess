@@ -1,6 +1,7 @@
 import styles from '../Piece.module.css';
+import { IPieceProps } from '../PieceComponent';
 
-export function RookComponent() {
+export function RookComponent({ model }: IPieceProps) {
   return (
     <svg
       fill="currentColor"
@@ -8,7 +9,7 @@ export function RookComponent() {
       width="24"
       height="24"
       viewBox="0 0 24 24"
-      className={`${styles.Piece}`}
+      className={`${styles.Piece} ${styles[model.color]}`}
     >
       <path d="M5 20h14v2H5v-2M17 2v3h-2V2h-2v3h-2V2H9v3H7V2H5v6h2v10h10V8h2V2h-2Z" />
     </svg>
