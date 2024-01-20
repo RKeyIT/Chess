@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import { Cell } from '../Cell/CellModel';
-import { Coordinates, xyType } from '../Coordinates/Coordinates';
-import { Pawn } from '../Piece/Pawn/PawnModel';
+import { Coordinates, xyType, yType } from '../Coordinates/Coordinates';
 import { Piece } from '../Piece/PieceAbstraction';
 import { BoardComponent } from './BoardComponent';
+import { Pawn } from '../Piece/Pawn/PawnModel';
 
 export type BoardTypeObject = Record<xyType, IBoardField>;
 
@@ -29,9 +29,29 @@ export class Board {
       };
     });
 
-    newBoard['C3'].piece = new Pawn('C3', 'white');
+    newBoard['C2'].piece = new Pawn('C2', 'white');
+    // this.setPiecesToCommonPositions(newBoard);
 
     return newBoard;
+  }
+
+  private static setPiecesToCommonPositions(board: BoardTypeObject) {
+    this.setPawnsCommonly(board);
+  }
+
+  private static setPawnsCommonly(board: BoardTypeObject) {
+    const lettersArr = Coordinates.xArr;
+    const yWhite: yType = '2';
+    const yBlack: yType = '7';
+
+    for (let i = 0; i < 8; i++) {
+      const x = lettersArr[i];
+      const whitePawnCoords: xyType = `${x}${yWhite}`;
+      const blackPawnCoords: xyType = `${x}${yBlack}`;
+
+      board[whitePawnCoords].piece = new Pawn(whitePawnCoords, 'white');
+      board[blackPawnCoords].piece = new Pawn(blackPawnCoords, 'black');
+    }
   }
 
   public static getInstanceLink = (): Board => Board.instance;
