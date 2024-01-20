@@ -5,7 +5,6 @@ import { CellComponent } from './CellComponent';
 import { Board, IBoardField } from '../Board/BoardModel';
 
 export class Cell {
-  readonly component: ReactNode;
   readonly coordinates: xyType;
   readonly x: xType;
   readonly y: yType;
@@ -13,16 +12,21 @@ export class Cell {
 
   // NOTE - this field will implemented by "lazy" initialisation by it getter
   private _boardField!: IBoardField;
+  private _component: ReactNode;
 
   constructor(coordinates: xyType) {
     this.coordinates = coordinates;
     this.x = Coordinates.getX(coordinates);
     this.y = Coordinates.getY(coordinates);
     this.color = this.defineColor(this.x, this.y);
-    this.component = (
-      <CellComponent key={this.color + coordinates} CellModel={this} />
-    );
+    this.refreshComponent();
   }
+
+  refreshComponent = () => {
+    this._component = (
+      <CellComponent key={this.color + this.coordinates} CellModel={this} />
+    );
+  };
 
   // NOTE - "Lazy initialisation" pattern
   get boardField() {
@@ -31,6 +35,10 @@ export class Cell {
     }
 
     return this._boardField;
+  }
+
+  get component() {
+    return this._component;
   }
 
   private defineColor(x: xType, y: yType): Color {

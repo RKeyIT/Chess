@@ -9,8 +9,14 @@ export function CellComponent({ CellModel }: ICellProps) {
   const { color, coordinates, boardField } = CellModel;
   const piece = boardField.piece;
 
+  const clickHandler = () => {
+    if (piece) {
+      piece.move();
+    }
+  };
+
   return (
-    <div className={`${styles.Cell} ${styles[color]}`}>
+    <div onClick={clickHandler} className={`${styles.Cell} ${styles[color]}`}>
       <div className={styles.coordinates}>{coordinates}</div>
       <div className={styles.highlighter}></div>
       {piece && piece.component}

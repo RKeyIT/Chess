@@ -41,11 +41,15 @@ export class Board {
   }
 
   public static movePiece = (piece: Piece, nextCoords: xyType) => {
-    const prevCoords = piece.coordinates;
+    const prevField = this.getFieldLink(piece.coordinates);
+    const nextField = this.getFieldLink(nextCoords);
 
-    this.getFieldLink(nextCoords).piece = piece;
+    nextField.piece = piece;
+    prevField.piece = null;
+
     piece.setNewCoords(nextCoords);
 
-    this.getFieldLink(prevCoords).piece = null;
+    nextField.cell.refreshComponent();
+    prevField.cell.refreshComponent();
   };
 }
