@@ -14,9 +14,7 @@ export class Pawn extends Piece {
   }
 
   override move = () => {
-    console.log(this.coordinates);
     const newCoords = (this.x + String(Number(this.y) + 1)) as xyType;
     Board.movePiece(this, newCoords);
-    console.log(this.coordinates);
   };
 }
