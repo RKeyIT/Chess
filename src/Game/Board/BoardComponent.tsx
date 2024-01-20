@@ -35,20 +35,16 @@ export function BoardComponent() {
     const coordinates: xyType | null = getCoords();
 
     if (pickedPiece && coordinates) {
-      // const prevCoords = pickedPiece.coordinates;
       setCurrentCoord(pickedPiece.coordinates);
-      console.log(currentCoord);
 
       board[currentCoord!].piece = null;
       board[coordinates].piece = pickedPiece;
-      console.log(board[currentCoord!], board[coordinates]);
 
       setCurrentCoord(null);
       setPickedPiece(null);
     }
 
     if (!pickedPiece && coordinates && board[coordinates].piece) {
-      console.log(board[currentCoord!], board[coordinates]);
       setCurrentCoord(coordinates);
       setPickedPiece(board[coordinates].piece);
     }
