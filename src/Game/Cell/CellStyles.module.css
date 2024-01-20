@@ -2,7 +2,13 @@
     width: var(--cell-size);
     height: var(--cell-size);
     transition: all var(--trans-200ms);
-    position: relative
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.Cell.WithPiece {
+    cursor: pointer;
 }
 
 .Cell.active,
