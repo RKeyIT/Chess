@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Coordinates, xType, xyType, yType } from '../Coordinates/Coordinates';
 import { Color, PieceNames } from '../types';
+import { Board } from '../Board/BoardModel';
 
 export abstract class Piece {
   readonly name: PieceNames = PieceNames.KING;
@@ -14,6 +15,17 @@ export abstract class Piece {
   constructor(coords: xyType, color: Color) {
     this.color = color;
     this.setNewCoords(coords);
+  }
+
+  public getTargets(): xyType[] {
+    const coords: xyType[] = Coordinates.xyArray.filter((el) => {
+      return (
+        el !== this.coordinates &&
+        Board.getFieldLink(el).piece?.color !== this.color
+      );
+    });
+
+    return coords;
   }
 
   setNewCoords(coords: xyType) {
