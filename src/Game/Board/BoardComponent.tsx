@@ -126,6 +126,7 @@ export function BoardComponent() {
           prevCoords: selectedPiece.coordinates,
         }));
 
+        selectedPiece.setNewCoords(targetCoords);
         board[prevCoords].piece = null;
         board[targetCoords].piece = selectedPiece;
 
