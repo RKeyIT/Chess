@@ -1,21 +1,93 @@
 import { useState, MouseEvent, useEffect } from 'react';
 import { Coordinates, xyType } from '../Coordinates/Coordinates';
-import { Board } from './BoardModel';
+import { Board, IBoardField } from './BoardModel';
 import styles from './BoardStyles.module.css';
 import { Piece } from '../Piece/PieceAbstraction';
 
+interface IBoardState {
+  selectedPiece: Piece | null; // pickedPiece state
+  prevCoords: xyType | null; // chosenCoords state
+  prevField: IBoardField | null; // prevPieceField state
+  selectedMoveField: IBoardField | null; // nextPieceField state
+  moveTargets: xyType[] | null; // targets state
+}
+
 export function BoardComponent() {
+  // NOTE - check info about useMemo
+  // Try to use it instead of "Force re-render"
+
   const board = Board.getInstanceLink().board;
   const coords: xyType[] = Coordinates.xyArray;
 
-  const [pickedPiece, setPickedPiece] = useState<Piece | null>(null);
-  const [currentCoords, setCurrentCoords] = useState<xyType | null>(null);
-  const [reRender, forceReRender] = useState(1);
+  const [state, setState] = useState<IBoardState>({
+    selectedPiece: null,
+    moveTargets: null,
+    prevField: null,
+    prevCoords: null,
+    selectedMoveField: null,
+  });
+
+  useEffect(() => {
+    setState((prev) => {
+      const { moveTargets, selectedPiece, prevField } = state;
+      /* NOTE - Conditions
+        1. moveTargets && selectedPiece
+        2. moveTargets && !selectedPiece 
+        3. !moveTargets && selectedPiece
+        4. prevPieceField && !selectedPiece
+      */
+
+      // NOTE - Cell highlighting scenario (piece was selected and target coords were received)
+      if (moveTargets && selectedPiece) {
+        moveTargets.forEach((coords: xyType) => {
+          board[coords].cell.isUnderAttack = true;
+        });
+
+        return prev;
+      }
+
+      // NOTE - Cell highlight cancelling scenario (piece was dropped)
+      if (moveTargets && !selectedPiece) {
+        moveTargets.forEach((coords: xyType) => {
+          board[coords].cell.isUnderAttack = false;
+        });
+
+        return { ...prev, moveTargets: null };
+      }
+
+      // NOTE - Prev piece coords saving (piece was selected)
+      if (
+        !moveTargets &&
+        selectedPiece &&
+        prevField &&
+        selectedPiece.coordinates !== prevField.cell.coordinates
+      ) {
+        const prevField = board[selectedPiece.coordinates];
+        return {
+          ...prev,
+          prevField: prevField,
+        };
+      }
+
+      // NOTE - Field clearing from piece (piece was moved)
+      if (!selectedPiece && prevField && moveTargets) {
+        return {
+          ...prev,
+          prevField: { ...prev.prevField, piece: null } as IBoardField,
+        };
+      }
+
+      console.log('DEFAULT CASE: No one condition are not truly');
+
+      return prev;
+    });
+  }, [state.selectedPiece, state.prevCoords, state.moveTargets, board, state]);
 
   // SECTION - Force re-render mechanism
+  const [reRender, forceReRender] = useState(1);
   useEffect(() => {
     forceReRender(0);
-  }, [pickedPiece]);
+  }, [state.selectedPiece]);
 
   useEffect(() => {
     forceReRender(1);
@@ -29,40 +101,50 @@ export function BoardComponent() {
   };
 
   const clickHandler = (e: MouseEvent) => {
+    const { selectedPiece, prevCoords } = state;
+
     const target = e.target as HTMLDivElement;
     const isHTML = target && target.parentNode instanceof HTMLDivElement;
     const isSVG = target && target.parentNode instanceof SVGElement;
-    const coordinates: xyType | null = getCoords();
+    const targetCoords: xyType | null = getCoords();
 
-    // NOTE - Piece is chosen
-    if (pickedPiece && coordinates && currentCoords) {
+    // NOTE - Selected piece logic
+    if (selectedPiece && targetCoords && prevCoords) {
+      // missclick or click on unavailable cell or click on same cell
       if (
-        board[coordinates].cell.isUnderAttack === false ||
-        coordinates === currentCoords
+        board[targetCoords].cell.isUnderAttack === false ||
+        targetCoords === prevCoords
       ) {
-        setPickedPiece(null);
-        setCurrentCoords(null);
+        setState((prev) => ({
+          ...prev,
+          prevCoords: null,
+          selectedPiece: null,
+        }));
       } else {
-        setCurrentCoords(pickedPiece.coordinates);
+        setState((prev) => ({
+          ...prev,
+          prevCoords: selectedPiece.coordinates,
+        }));
 
-        board[currentCoords].piece = null;
-        board[coordinates].piece = pickedPiece;
+        board[prevCoords].piece = null;
+        board[targetCoords].piece = selectedPiece;
 
-        setCurrentCoords(null);
-        setPickedPiece(null);
+        setState((prev) => ({
+          ...prev,
+          prevCoords: null,
+          selectedPiece: null,
+        }));
       }
     }
 
-    // NOTE - Piece is not chosen yet
-    if (!pickedPiece && coordinates && board[coordinates].piece) {
-      board.D3.cell.isUnderAttack = true;
-      board.D4.cell.isUnderAttack = true;
-
-      setCurrentCoords(coordinates);
-      setPickedPiece(board[coordinates].piece);
-
-      // TODO - implement method that returns target coords and highlight it
-      // const targetCoords: xyType[] = pickedPiece.getTargetCoords()
+    // NOTE - Piece is not chosen yet and will be selected right now
+    if (!selectedPiece && targetCoords && board[targetCoords].piece) {
+      setState((prev) => ({
+        ...prev,
+        prevCoords: targetCoords,
+        selectedPiece: board[targetCoords].piece,
+        moveTargets: board[targetCoords].piece!.getTargets(), // find possible moves
+      }));
     }
 
     function getCoords(): xyType | null {
