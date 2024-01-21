@@ -17,4 +17,6 @@
     --highlighter-1-trans: rgba(100, 50, 150, 0.6);
     --highlighter-2: rgb(100, 190, 190);
     --highlighter-2-trans: rgba(100, 190, 190, 0.6);
+    --highlighter-underattack: rgba(255, 255, 255, 0.3);
+    --highlighter-underattack-hover: rgba(50, 225, 25, 0.9);
 }

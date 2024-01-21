@@ -34,19 +34,35 @@ export function BoardComponent() {
     const isSVG = target && target.parentNode instanceof SVGElement;
     const coordinates: xyType | null = getCoords();
 
+    // NOTE - Piece is chosen
     if (pickedPiece && coordinates && currentCoords) {
-      setCurrentCoords(pickedPiece.coordinates);
+      if (
+        board[coordinates].cell.isUnderAttack === false ||
+        coordinates === currentCoords
+      ) {
+        setPickedPiece(null);
+        setCurrentCoords(null);
+      } else {
+        setCurrentCoords(pickedPiece.coordinates);
 
-      board[currentCoords].piece = null;
-      board[coordinates].piece = pickedPiece;
+        board[currentCoords].piece = null;
+        board[coordinates].piece = pickedPiece;
 
-      setCurrentCoords(null);
-      setPickedPiece(null);
+        setCurrentCoords(null);
+        setPickedPiece(null);
+      }
     }
 
+    // NOTE - Piece is not chosen yet
     if (!pickedPiece && coordinates && board[coordinates].piece) {
+      board.D3.cell.isUnderAttack = true;
+      board.D4.cell.isUnderAttack = true;
+
       setCurrentCoords(coordinates);
       setPickedPiece(board[coordinates].piece);
+
+      // TODO - implement method that returns target coords and highlight it
+      // const targetCoords: xyType[] = pickedPiece.getTargetCoords()
     }
 
     function getCoords(): xyType | null {

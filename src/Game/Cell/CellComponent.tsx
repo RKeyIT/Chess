@@ -6,14 +6,17 @@ interface ICellProps {
 }
 
 export function CellComponent({ CellModel }: ICellProps) {
-  const { color, coordinates, boardField } = CellModel;
+  const { color, coordinates, boardField, isUnderAttack } = CellModel;
   const piece = boardField.piece;
 
+  const classNames = `${styles.Cell} ${styles[color]} ${
+    piece && styles.WithPiece
+  }  ${isUnderAttack && styles.UnderAttack}`;
   // const [isActive, setActive] = useState(false);
 
   return (
     <div
-      className={`${styles.Cell} ${piece && styles.WithPiece} ${styles[color]}`} // ${isActive && styles.active}
+      className={classNames} // ${isActive && styles.active}
       data-coordinates={coordinates}
     >
       <div className={styles.coordinates}>{coordinates}</div>
