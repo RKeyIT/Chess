@@ -30,6 +30,9 @@ export class Board {
     });
 
     newBoard['C2'].piece = new Pawn('C2', 'white');
+    newBoard['D5'].piece = new Pawn('D5', 'white');
+    newBoard['E7'].piece = new Pawn('E7', 'white');
+    newBoard['F1'].piece = new Pawn('F1', 'white');
     // this.setPiecesToCommonPositions(newBoard);
 
     return newBoard;
