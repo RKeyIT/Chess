@@ -9,7 +9,7 @@ export function BoardComponent() {
   const coords: xyType[] = Coordinates.xyArray;
 
   const [pickedPiece, setPickedPiece] = useState<Piece | null>(null);
-  const [currentCoord, setCurrentCoord] = useState<xyType | null>(null);
+  const [currentCoords, setCurrentCoords] = useState<xyType | null>(null);
   const [reRender, forceReRender] = useState(1);
 
   // SECTION - Force re-render mechanism
@@ -34,18 +34,18 @@ export function BoardComponent() {
     const isSVG = target && target.parentNode instanceof SVGElement;
     const coordinates: xyType | null = getCoords();
 
-    if (pickedPiece && coordinates) {
-      setCurrentCoord(pickedPiece.coordinates);
+    if (pickedPiece && coordinates && currentCoords) {
+      setCurrentCoords(pickedPiece.coordinates);
 
-      board[currentCoord!].piece = null;
+      board[currentCoords].piece = null;
       board[coordinates].piece = pickedPiece;
 
-      setCurrentCoord(null);
+      setCurrentCoords(null);
       setPickedPiece(null);
     }
 
     if (!pickedPiece && coordinates && board[coordinates].piece) {
-      setCurrentCoord(coordinates);
+      setCurrentCoords(coordinates);
       setPickedPiece(board[coordinates].piece);
     }
 
