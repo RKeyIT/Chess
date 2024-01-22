@@ -133,6 +133,21 @@ export function BoardComponent() {
           prevCoords: selectedPiece.coordinates,
         }));
 
+        // PAWN "en passant" checks
+        if (selectedPiece.isFirstMove) {
+          selectedPiece.isFirstMove = false;
+
+          if (
+            Number(prevCoords[1]) + 2 === Number(targetCoords[1]) ||
+            Number(prevCoords[1]) - 2 === Number(targetCoords[1])
+          )
+            selectedPiece.isUnderEnPassant = true;
+        }
+        if (selectedPiece.isUnderEnPassant) {
+          selectedPiece.isUnderEnPassant = false;
+        }
+        // PAWN "en passant" checks
+
         selectedPiece.setNewCoords(targetCoords);
         board[prevCoords].piece = null;
         board[targetCoords].piece = selectedPiece;

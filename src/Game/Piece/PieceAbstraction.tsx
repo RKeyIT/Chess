@@ -12,6 +12,11 @@ export abstract class Piece {
   private _x!: xType;
   private _y!: yType;
 
+  // PAWN SPECIFIC FLAGS
+  public isFirstMove: boolean = false;
+  public isUnderEnPassant: boolean = false;
+  // PAWN SPECIFIC FLAGS
+
   constructor(coords: xyType, color: Color) {
     this.color = color;
     this.setNewCoords(coords);
