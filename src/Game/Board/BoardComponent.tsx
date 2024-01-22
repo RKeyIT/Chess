@@ -13,7 +13,10 @@ interface IBoardState {
 }
 
 export function BoardComponent() {
-  // NOTE - check info about useMemo
+  // TODO - Refactor component and extract logic from it to models
+  // FIXME - Component should look for data only and do not to change it!
+
+  // TODO - check info about useMemo
   // Try to use it instead of "Force re-render"
 
   const board = Board.getInstanceLink().board;
