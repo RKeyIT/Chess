@@ -30,14 +30,14 @@ export function BoardComponent() {
   useEffect(() => {
     setState((prev) => {
       const { moveTargets, selectedPiece, prevField } = state;
-      /* NOTE - Conditions
-        1. moveTargets && selectedPiece
-        2. moveTargets && !selectedPiece 
-        3. !moveTargets && selectedPiece
-        4. prevPieceField && !selectedPiece
+      /* NOTE - Conditions & Scenarios
+        1. moveTargets && selectedPiece -------> cells highlighting
+        2. moveTargets && !selectedPiece ------> highlight cancelling
+        3. !moveTargets && selectedPiece ------> coords saving to clearing after move
+        4. prevField && !selectedPiece --------> clearing field after move
       */
 
-      // NOTE - Cell highlighting scenario (piece was selected and target coords were received)
+      // NOTE - 1. Cell highlighting scenario (piece was selected and target coords were received)
       if (moveTargets && selectedPiece) {
         moveTargets.forEach((coords: xyType) => {
           board[coords].cell.isUnderAttack = true;
@@ -46,7 +46,7 @@ export function BoardComponent() {
         return prev;
       }
 
-      // NOTE - Cell highlight cancelling scenario (piece was dropped)
+      // NOTE - 2. Cell highlight cancelling scenario (piece was dropped)
       if (moveTargets && !selectedPiece) {
         moveTargets.forEach((coords: xyType) => {
           board[coords].cell.isUnderAttack = false;
@@ -55,7 +55,7 @@ export function BoardComponent() {
         return { ...prev, moveTargets: null };
       }
 
-      // NOTE - Prev piece coords saving (piece was selected)
+      // NOTE - 3. Prev piece coords saving (piece was selected)
       if (
         !moveTargets &&
         selectedPiece &&
@@ -69,7 +69,7 @@ export function BoardComponent() {
         };
       }
 
-      // NOTE - Field clearing from piece (piece was moved)
+      // NOTE - 4. Field clearing from piece (piece was moved)
       if (!selectedPiece && prevField && moveTargets) {
         return {
           ...prev,
@@ -101,6 +101,12 @@ export function BoardComponent() {
   };
 
   const clickHandler = (e: MouseEvent) => {
+    /* NOTE - Conditions & Scenarios
+        1. Piece was selceted and it will find it target
+          1.1. Click to unavailable zone
+          1.2. Click to correct target
+        2. Piece selection logic
+      */
     const { selectedPiece, prevCoords } = state;
 
     const target = e.target as HTMLDivElement;
@@ -108,10 +114,10 @@ export function BoardComponent() {
     const isSVG = target && target.parentNode instanceof SVGElement;
     const targetCoords: xyType | null = getCoords();
 
-    // NOTE - Selected piece logic
+    // NOTE - 1. Piece was selceted and it will find it target
     if (selectedPiece && targetCoords && prevCoords) {
-      // missclick or click on unavailable cell or click on same cell
       if (
+        // 1.1. Click to unavailable zone
         board[targetCoords].cell.isUnderAttack === false ||
         targetCoords === prevCoords
       ) {
@@ -121,6 +127,7 @@ export function BoardComponent() {
           selectedPiece: null,
         }));
       } else {
+        // 1.2. Click to correct target
         setState((prev) => ({
           ...prev,
           prevCoords: selectedPiece.coordinates,
@@ -138,7 +145,7 @@ export function BoardComponent() {
       }
     }
 
-    // NOTE - Piece is not chosen yet and will be selected right now
+    // NOTE - 2. Piece selection logic
     if (!selectedPiece && targetCoords && board[targetCoords].piece) {
       setState((prev) => ({
         ...prev,
@@ -149,9 +156,11 @@ export function BoardComponent() {
     }
 
     function getCoords(): xyType | null {
+      // The helper function that returns coords of clicked cell/piece or null
       if (isHTML) {
         return target.parentNode.dataset.coordinates as xyType;
       }
+
       if (isSVG) {
         return (target.parentNode!.parentNode as HTMLDivElement).dataset
           .coordinates as xyType;
