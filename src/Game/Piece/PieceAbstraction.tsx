@@ -15,11 +15,13 @@ export abstract class Piece {
   // PAWN SPECIFIC FLAGS
   public isFirstMove: boolean = false;
   public isUnderEnPassant: boolean = false;
+  public direction: 1 | -1;
   // PAWN SPECIFIC FLAGS
 
   constructor(coords: xyType, color: Color) {
     this.color = color;
     this.setNewCoords(coords);
+    this.direction = color === 'white' ? 1 : -1;
   }
 
   public getTargets(): xyType[] {

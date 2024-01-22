@@ -135,18 +135,25 @@ export function BoardComponent() {
 
         // PAWN "en passant" checks
         if (selectedPiece.isFirstMove) {
+          console.log('First move case: ');
           selectedPiece.isFirstMove = false;
 
-          if (
-            Number(prevCoords[1]) + 2 === Number(targetCoords[1]) ||
-            Number(prevCoords[1]) - 2 === Number(targetCoords[1])
-          )
-            selectedPiece.isUnderEnPassant = true;
+          const direction = selectedPiece.direction;
+          const pieceY = Coordinates.getY(prevCoords);
+          const nextPieceY = Coordinates.getNextCoordinate(pieceY, direction);
+          const isDoubleMove =
+            nextPieceY &&
+            Coordinates.getY(targetCoords) ===
+              Coordinates.getNextCoordinate(nextPieceY, direction);
+
+          console.log(direction, pieceY, nextPieceY, isDoubleMove);
+
+          if (isDoubleMove) selectedPiece.isUnderEnPassant = true;
         }
         if (selectedPiece.isUnderEnPassant) {
           selectedPiece.isUnderEnPassant = false;
         }
-        // PAWN "en passant" checks
+        // PAWN "en passant" checks END OF BLOCK
 
         selectedPiece.setNewCoords(targetCoords);
         board[prevCoords].piece = null;

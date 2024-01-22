@@ -11,7 +11,6 @@ export class Pawn extends Piece {
   readonly component: ReactNode = (<PieceComponent model={this} />);
 
   public isFirstMove = true;
-  public isAfterFirstMove = false;
 
   // FIXME - en passant move can be exist if the pawn first move was on 2 cells forward
   public isUnderEnPassant = false;
@@ -39,69 +38,85 @@ export class Pawn extends Piece {
     const coords: xyType[] = [];
     // const yFirstMove: yType = String(+this.y + 1) as yType;
 
-    const commonMove: xyType = `${this.x}${String(+this.y + 1) as yType}`;
-    const firstMove: xyType = `${this.x}${String(+this.y + 2) as yType}`;
+    const commonMove: xyType = `${this.x}${
+      String(+this.y + this.direction) as yType
+    }`;
+    const firstMove: xyType = `${this.x}${
+      String(+this.y + this.direction * 2) as yType
+    }`;
 
     // 1. Common move
-    if (Coordinates.isAvailableXY(commonMove)) {
+    if (
+      Coordinates.isAvailableXY(commonMove) &&
+      !Board.getFieldLink(commonMove).piece
+    ) {
       coords.push(commonMove);
     }
 
     // 2. First move
-    if (this.isFirstMove && Coordinates.isAvailableXY(firstMove)) {
+    if (
+      this.isFirstMove &&
+      Coordinates.isAvailableXY(firstMove) &&
+      !Board.getFieldLink(firstMove).piece
+    ) {
       coords.push(firstMove);
     }
 
-    // Left diagonal attacks
     const nextY = Coordinates.getNextCoordinate(this.y, this.direction);
     const leftX = Coordinates.getNextCoordinate(this.x, -1);
-
-    if (leftX && nextY) {
-      const piece = Board.getFieldLink(`${leftX}${nextY}`).piece;
-
-      // Is this enemy piece?
-      if (piece && piece.color !== this.color) {
-        // Is it pawn and is it under en passant move?
-        if (piece.name === PieceNames.PAWN && piece.isUnderEnPassant) {
-          const enPassantY = Coordinates.getNextCoordinate(
-            nextY,
-            this.direction
-          );
-
-          // is exist enMassant coord?
-          // 5. Left en passant
-          if (enPassantY) coords.push(`${leftX}${enPassantY}`);
-        } else {
-          // 3. Left diagonal attack
-          coords.push(`${leftX}${nextY}`);
-        }
-      }
-    }
-
-    // Right diagonal attack
     const rightX = Coordinates.getNextCoordinate(this.x, 1);
+    const leftDiagonalPiece =
+      leftX && nextY && Board.getFieldLink(`${leftX}${nextY}`).piece;
+    const rightDiagonalPiece =
+      rightX && nextY && Board.getFieldLink(`${rightX}${nextY}`).piece;
+    const leftPiece = leftX && Board.getFieldLink(`${leftX}${this.y}`).piece;
+    const rightPiece = rightX && Board.getFieldLink(`${rightX}${this.y}`).piece;
 
-    if (rightX && nextY) {
-      const piece = Board.getFieldLink(`${rightX}${nextY}`).piece;
+    // 3. Left diagonal attack
+    if (leftDiagonalPiece && leftDiagonalPiece.color !== this.color)
+      coords.push(`${leftX}${nextY}`);
 
-      // Is this enemy piece?
-      if (piece && piece.color !== this.color) {
-        // Is it pawn and is it under en passant move?
-        if (piece.name === PieceNames.PAWN && piece.isUnderEnPassant) {
-          const enPassantY = Coordinates.getNextCoordinate(
-            nextY,
-            this.direction
-          );
+    // 4. Right diagonal attack
+    if (rightDiagonalPiece && rightDiagonalPiece.color !== this.color)
+      coords.push(`${rightX}${nextY}`);
 
-          // is exist enMassant coord?
-          // 5. Right en passant
-          if (enPassantY) coords.push(`${rightX}${enPassantY}`);
-        } else {
-          // 4. Right diagonal attack
-          coords.push(`${rightX}${nextY}`);
-        }
-      }
+    // 5. Left en passant
+    console.log(
+      'LP: ',
+      leftPiece,
+      leftPiece?.name,
+      leftPiece?.isUnderEnPassant
+    );
+    if (
+      leftPiece &&
+      leftPiece.name === PieceNames.PAWN &&
+      leftPiece.isUnderEnPassant
+    ) {
+      console.log('En Passant case');
+      const enPassantY = Coordinates.getNextCoordinate(this.y, this.direction);
+
+      enPassantY && coords.push(`${leftX}${enPassantY}`);
     }
+
+    // 6. Right en passant
+    console.log(
+      'RP: ',
+      rightPiece,
+      rightPiece?.name,
+      rightPiece?.isUnderEnPassant
+    );
+    if (
+      rightPiece &&
+      rightPiece.name === PieceNames.PAWN &&
+      rightPiece.isUnderEnPassant
+    ) {
+      console.log('En Passant case');
+      const enPassantY = Coordinates.getNextCoordinate(this.y, this.direction);
+
+      enPassantY && coords.push(`${rightX}${enPassantY}`);
+    }
+
+    console.log(coords);
 
     return coords;
   }
