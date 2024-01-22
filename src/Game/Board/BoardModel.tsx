@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Cell } from '../Cell/CellModel';
-import { Coordinates, xyType } from '../Coordinates/Coordinates';
+import { Coordinates, xyType, yType } from '../Coordinates/Coordinates';
 import { Piece } from '../Piece/PieceAbstraction';
 import { BoardComponent } from './BoardComponent';
 import { Pawn } from '../Piece/Pawn/PawnModel';
@@ -29,33 +29,29 @@ export class Board {
       };
     });
 
-    newBoard['C2'].piece = new Pawn('C2', 'white');
-    newBoard['D5'].piece = new Pawn('D5', 'white');
-    newBoard['E7'].piece = new Pawn('E7', 'white');
-    newBoard['F1'].piece = new Pawn('F1', 'white');
-    // this.setPiecesToCommonPositions(newBoard);
+    this.spawnPiecesToCommonPositions(newBoard);
 
     return newBoard;
   }
 
-  // private static setPiecesToCommonPositions(board: BoardTypeObject) {
-  //   this.setPawnsCommonly(board);
-  // }
+  private static spawnPiecesToCommonPositions(board: BoardTypeObject) {
+    this.spawnPawnsCommonly(board);
+  }
 
-  // private static setPawnsCommonly(board: BoardTypeObject) {
-  //   const lettersArr = Coordinates.xArr;
-  //   const yWhite: yType = '2';
-  //   const yBlack: yType = '7';
+  private static spawnPawnsCommonly(board: BoardTypeObject) {
+    const lettersArr = Coordinates.xArr;
+    const yWhite: yType = '2';
+    const yBlack: yType = '7';
 
-  //   for (let i = 0; i < 8; i++) {
-  //     const x = lettersArr[i];
-  //     const whitePawnCoords: xyType = `${x}${yWhite}`;
-  //     const blackPawnCoords: xyType = `${x}${yBlack}`;
+    for (let i = 0; i < 8; i++) {
+      const x = lettersArr[i];
+      const whitePawnCoords: xyType = `${x}${yWhite}`;
+      const blackPawnCoords: xyType = `${x}${yBlack}`;
 
-  //     board[whitePawnCoords].piece = new Pawn(whitePawnCoords, 'white');
-  //     board[blackPawnCoords].piece = new Pawn(blackPawnCoords, 'black');
-  //   }
-  // }
+      board[whitePawnCoords].piece = new Pawn(whitePawnCoords, 'white');
+      board[blackPawnCoords].piece = new Pawn(blackPawnCoords, 'black');
+    }
+  }
 
   public static getInstanceLink = (): Board => Board.instance;
 
