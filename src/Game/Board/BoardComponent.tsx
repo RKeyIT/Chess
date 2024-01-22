@@ -1,8 +1,8 @@
-import { useState, MouseEvent, useEffect } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { Coordinates, xyType } from '../Coordinates/Coordinates';
+import { Piece } from '../Piece/PieceAbstraction';
 import { Board, IBoardField } from './BoardModel';
 import styles from './BoardStyles.module.css';
-import { Piece } from '../Piece/PieceAbstraction';
 
 interface IBoardState {
   selectedPiece: Piece | null; // pickedPiece state
