@@ -53,6 +53,7 @@ export class Board {
     }
   }
 
+  // NOTE - PUBLIC
   public static getInstanceLink = (): Board => Board.instance;
 
   public static getFieldLink(coordinates: xyType): IBoardField {
