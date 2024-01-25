@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Coordinates, xType, xyType, yType } from '../Coordinates/Coordinates';
-import { Color, Pieces } from '../types';
+import { Color, Direction, Pieces } from '../types';
 import { Board } from '../Board/BoardModel';
 
 export abstract class Piece {
@@ -13,10 +13,12 @@ export abstract class Piece {
   private _y!: yType;
 
   // PAWN SPECIFIC FLAGS
+  readonly direction: Direction;
   public isFirstMove: boolean = false;
   public isUnderEnPassant: boolean = false;
-  public direction: 1 | -1;
   // PAWN SPECIFIC FLAGS
+
+  public isSelected: boolean = false;
 
   constructor(coords: xyType, color: Color) {
     this.color = color;
