@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Piece } from '../Piece/PieceAbstraction';
+import { Piece } from '../Piece/PieceModel';
 import { xyType } from '../Coordinates/Coordinates';
 import { IBoardField } from '../Board/BoardModel';
 

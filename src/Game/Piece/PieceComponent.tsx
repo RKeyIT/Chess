@@ -3,7 +3,7 @@ import { BishopComponent } from './Bishop/BishopComponent';
 import { KingComponent } from './King/KingComponent';
 import { KnightComponent } from './Knight/KnightComponent';
 import { PawnComponent } from './Pawn/PawnComponent';
-import { Piece } from './PieceAbstraction';
+import { Piece } from './PieceModel';
 import { QueenComponent } from './Queen/QueenComponent';
 import { RookComponent } from './Rook/RookComponent';
 

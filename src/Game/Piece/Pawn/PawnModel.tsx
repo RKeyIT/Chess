@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Coordinates, xyType, yType } from '../../Coordinates/Coordinates';
 import { Color, Direction, Pieces } from '../../types';
-import { Piece } from '../PieceAbstraction';
+import { Piece } from '../PieceModel';
 import { Board } from '../../Board/BoardModel';
 import { PieceComponent } from '../PieceComponent';
 

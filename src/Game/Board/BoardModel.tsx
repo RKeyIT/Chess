@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Cell } from '../Cell/CellModel';
 import { Coordinates, xyType, yType } from '../Coordinates/Coordinates';
-import { Piece } from '../Piece/PieceAbstraction';
+import { Piece } from '../Piece/PieceModel';
 import { BoardComponent } from './BoardComponent';
 import { Pawn } from '../Piece/Pawn/PawnModel';
 import { Rook } from '../Piece/Rook/RookModel';
