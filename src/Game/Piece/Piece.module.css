@@ -20,6 +20,5 @@
 
 .Piece:active {
     color: red;
-    width: 110%;
-    height: 110%;
+    transform: scale(1.2);
 }
