@@ -1,11 +1,10 @@
 import { ReactNode } from 'react';
 import { Coordinates, xType, xyType, yType } from '../Coordinates/Coordinates';
 import { Color, Direction, Pieces } from '../types';
-import { Board } from '../Board/BoardModel';
 
 export abstract class Piece {
-  readonly name: Pieces = Pieces.KING;
-  readonly component: ReactNode;
+  abstract readonly name: Pieces;
+  abstract readonly component: ReactNode;
   readonly color: Color;
 
   private _coordinates!: xyType;
@@ -14,28 +13,29 @@ export abstract class Piece {
 
   // PAWN SPECIFIC FLAGS
   readonly direction: Direction;
-  public isFirstMove: boolean = false;
-  public isUnderEnPassant: boolean = false;
+  abstract isFirstMove: boolean;
+  abstract isUnderEnPassant: boolean;
   // PAWN SPECIFIC FLAGS
 
-  public isSelected: boolean = false;
+  abstract isSelected: boolean;
 
   constructor(coords: xyType, color: Color) {
-    this.color = color;
     this.setNewCoords(coords);
+    this.color = color;
     this.direction = color === 'white' ? 1 : -1;
   }
 
-  public getTargets(): xyType[] {
-    const coords: xyType[] = Coordinates.xyArray.filter((el) => {
-      return (
-        el !== this.coordinates &&
-        Board.getFieldLink(el).piece?.color !== this.color
-      );
-    });
+  public abstract getTargets(): xyType[];
+  // {
+  //   const coords: xyType[] = Coordinates.xyArray.filter((el) => {
+  //     return (
+  //       el !== this.coordinates &&
+  //       Board.getFieldLink(el).piece?.color !== this.color
+  //     );
+  //   });
 
-    return coords;
-  }
+  //   return coords;
+  // }
 
   setNewCoords(coords: xyType) {
     this._coordinates = coords;
@@ -43,7 +43,7 @@ export abstract class Piece {
     this._y = Coordinates.getY(coords);
   }
 
-  move = (): void => {};
+  abstract move(): void;
 
   get coordinates() {
     return this._coordinates;
