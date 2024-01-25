@@ -1,4 +1,4 @@
-import { PieceNames } from '../types';
+import { Pieces } from '../types';
 import { BishopComponent } from './Bishop/BishopComponent';
 import { KingComponent } from './King/KingComponent';
 import { KnightComponent } from './Knight/KnightComponent';
@@ -13,12 +13,12 @@ export interface IPieceProps {
 
 export function PieceComponent({ model }: IPieceProps) {
   const pieceObject = {
-    [PieceNames.KING]: <KingComponent model={model} />,
-    [PieceNames.QUEEN]: <QueenComponent model={model} />,
-    [PieceNames.BISHOP]: <BishopComponent model={model} />,
-    [PieceNames.KNIGHT]: <KnightComponent model={model} />,
-    [PieceNames.ROOK]: <RookComponent model={model} />,
-    [PieceNames.PAWN]: <PawnComponent model={model} />,
+    [Pieces.KING]: <KingComponent model={model} />,
+    [Pieces.QUEEN]: <QueenComponent model={model} />,
+    [Pieces.BISHOP]: <BishopComponent model={model} />,
+    [Pieces.KNIGHT]: <KnightComponent model={model} />,
+    [Pieces.ROOK]: <RookComponent model={model} />,
+    [Pieces.PAWN]: <PawnComponent model={model} />,
   };
 
   return <>{pieceObject[model.name]}</>;

@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 import { Coordinates, xType, xyType, yType } from '../Coordinates/Coordinates';
-import { Color, PieceNames } from '../types';
+import { Color, Pieces } from '../types';
 import { Board } from '../Board/BoardModel';
 
 export abstract class Piece {
-  readonly name: PieceNames = PieceNames.KING;
+  readonly name: Pieces = Pieces.KING;
   readonly component: ReactNode;
   readonly color: Color;
 

@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 import { Coordinates, xyType, yType } from '../../Coordinates/Coordinates';
-import { Color, Direction, PieceNames } from '../../types';
+import { Color, Direction, Pieces } from '../../types';
 import { Piece } from '../PieceAbstraction';
 import { Board } from '../../Board/BoardModel';
 import { PieceComponent } from '../PieceComponent';
 
 export class Pawn extends Piece {
-  readonly name = PieceNames.PAWN;
+  readonly name = Pieces.PAWN;
   readonly direction: Direction;
   readonly component: ReactNode = (<PieceComponent model={this} />);
 
@@ -89,7 +89,7 @@ export class Pawn extends Piece {
     );
     if (
       leftPiece &&
-      leftPiece.name === PieceNames.PAWN &&
+      leftPiece.name === Pieces.PAWN &&
       leftPiece.isUnderEnPassant
     ) {
       console.log('En Passant case');
@@ -107,7 +107,7 @@ export class Pawn extends Piece {
     );
     if (
       rightPiece &&
-      rightPiece.name === PieceNames.PAWN &&
+      rightPiece.name === Pieces.PAWN &&
       rightPiece.isUnderEnPassant
     ) {
       console.log('En Passant case');

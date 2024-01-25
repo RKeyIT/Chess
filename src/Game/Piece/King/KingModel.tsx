@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
-import { Color, PieceNames } from '../../types';
+import { Color, Pieces } from '../../types';
 import { Piece } from '../PieceAbstraction';
 import { PieceComponent } from '../PieceComponent';
 import { xyType } from '../../Coordinates/Coordinates';
 import { Board } from '../../Board/BoardModel';
 
 export class King extends Piece {
-  readonly name = PieceNames.KING;
+  readonly name = Pieces.KING;
   readonly component: ReactNode = (<PieceComponent model={this} />);
 
   constructor(coords: xyType, color: Color) {
