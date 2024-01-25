@@ -80,8 +80,7 @@ export function BoardComponent() {
         };
       }
 
-      console.log('DEFAULT CASE: No one condition are not truly');
-
+      // NOTE - STOP re-render point. If received changeless state with same link
       return prev;
     });
   }, [state.selectedPiece, state.prevCoords, state.moveTargets, board, state]);
@@ -153,9 +152,9 @@ export function BoardComponent() {
 
           if (isDoubleMove) selectedPiece.isUnderEnPassant = true;
         }
-        if (selectedPiece.isUnderEnPassant) {
-          selectedPiece.isUnderEnPassant = false;
-        }
+        // if (selectedPiece.isUnderEnPassant) {
+        //   selectedPiece.isUnderEnPassant = false;
+        // }
         // PAWN "en passant" checks END OF BLOCK
 
         selectedPiece.setNewCoords(targetCoords);
