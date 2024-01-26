@@ -117,7 +117,7 @@ export class Pawn extends Piece {
       enPassantY && coords.push(`${rightX}${enPassantY}`);
     }
 
-    console.log(coords);
+    // console.log(coords);
 
     return coords;
   }

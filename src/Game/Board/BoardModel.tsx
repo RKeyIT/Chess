@@ -135,9 +135,10 @@ export class Board {
 
     // 0. Getting target coordinates
     const target = Event.target as HTMLDivElement;
-    const isHTML = target && target.parentNode instanceof HTMLDivElement;
-    const targetCoords: xyType | null = getCoords();
-    const targetField = targetCoords && Board.getFieldLink(targetCoords);
+    const targetCoords: xyType = target.dataset.coordinates as xyType;
+    const targetField = Board.getFieldLink(targetCoords);
+
+    console.log(targetCoords, targetField);
 
     // 1. Piece selection logic
     if (!Board.selectedPiece) Board.selectPiece(targetField);
@@ -155,15 +156,6 @@ export class Board {
         Board.movePiece(Board.selectedPiece, targetCoords);
         Board.selectPiece(null);
       }
-    }
-
-    function getCoords(): xyType | null {
-      // The helper function that returns coords of clicked cell/piece or null
-      const parentDiv = isHTML // <-- Here's HTML or SVG element
-        ? (target.parentNode as HTMLElement)
-        : (target.parentNode?.parentNode as HTMLElement) || null;
-
-      return (parentDiv?.dataset.coordinates as xyType) || null;
     }
   }
 }

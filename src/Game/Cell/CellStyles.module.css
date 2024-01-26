@@ -7,6 +7,10 @@
     user-select: none;
 }
 
+.Cell * {
+    pointer-events: none;
+}
+
 .Cell.WithPiece {
     cursor: pointer;
 }
@@ -33,9 +37,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-
-    /* pointer-events: none !important; */
-    /* It's disable coords getting via JS */
 }
 
 .Cell:hover .highlighter {
@@ -73,5 +74,4 @@
     font-size: 1.25rem;
     -webkit-user-select: none;
     user-select: none;
-    pointer-events: none;
 }
