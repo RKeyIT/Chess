@@ -41,11 +41,11 @@ export class Board {
   }
 
   private static spawnPiecesToCommonPositions(board: BoardTypeObject) {
-    this.spawnKingsCommonly(board);
-    this.spawnQueensCommonly(board);
-    this.spawnBishopsCommonly(board);
-    this.spawnKnightsCommonly(board);
-    this.spawnRooksCommonly(board);
+    // this.spawnKingsCommonly(board);
+    // this.spawnQueensCommonly(board);
+    // this.spawnBishopsCommonly(board);
+    // this.spawnKnightsCommonly(board);
+    // this.spawnRooksCommonly(board);
     this.spawnPawnsCommonly(board);
   }
 
@@ -137,8 +137,6 @@ export class Board {
     const target = Event.target as HTMLDivElement;
     const targetCoords: xyType = target.dataset.coordinates as xyType;
     const targetField = Board.getFieldLink(targetCoords);
-
-    console.log(targetCoords, targetField);
 
     // 1. Piece selection logic
     if (!Board.selectedPiece) Board.selectPiece(targetField);
