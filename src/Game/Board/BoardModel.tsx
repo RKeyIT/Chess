@@ -20,6 +20,7 @@ export interface IBoardField {
 export class Board {
   private constructor() {}
   private static instance: Board = new Board();
+  private static selectedPiece: Piece | null = null;
 
   readonly board: BoardTypeObject = Board.createBoard();
   readonly component: ReactNode = (<BoardComponent />);
@@ -91,6 +92,18 @@ export class Board {
     board.E8.piece = new King('E8', 'black');
   }
 
+  private static selectPiece(targetField: IBoardField | null) {
+    if (targetField && targetField.piece) {
+      targetField.piece.isSelected = true;
+      Board.selectedPiece = targetField.piece;
+    } else {
+      if (Board.selectedPiece) {
+        Board.selectedPiece.isSelected = false;
+        Board.selectedPiece = null;
+      }
+    }
+  }
+
   // NOTE - PUBLIC methods
   static getInstanceLink = (): Board => Board.instance;
 
@@ -113,25 +126,44 @@ export class Board {
 
   static click(Event: React.MouseEvent) {
     /* NOTE - Conditions & Scenarios
+        0. Getting target coordinates
         1. Piece selection logic
         2. Piece already selected
           2.1. Click to unavailable zone
           2.2. Click to correct target
       */
 
+    // 0. Getting target coordinates
     const target = Event.target as HTMLDivElement;
     const isHTML = target && target.parentNode instanceof HTMLDivElement;
     const targetCoords: xyType | null = getCoords();
+    const targetField = targetCoords && Board.getFieldLink(targetCoords);
+
+    // 1. Piece selection logic
+    if (!Board.selectedPiece) Board.selectPiece(targetField);
+
+    // 2. Piece already selected
+    if (Board.selectedPiece) {
+      const targets: xyType[] = Board.selectedPiece.getTargets();
+
+      // 2.1. Click to unavailable zone
+      if (targetCoords && !targets.some((el) => el === targetCoords)) {
+        Board.selectPiece(null);
+      }
+
+      if (targetCoords && targets.some((el) => el === targetCoords)) {
+        Board.movePiece(Board.selectedPiece, targetCoords);
+        Board.selectPiece(null);
+      }
+    }
 
     function getCoords(): xyType | null {
       // The helper function that returns coords of clicked cell/piece or null
-      const parentDiv = isHTML
+      const parentDiv = isHTML // <-- Here's HTML or SVG element
         ? (target.parentNode as HTMLElement)
         : (target.parentNode?.parentNode as HTMLElement) || null;
 
       return (parentDiv?.dataset.coordinates as xyType) || null;
     }
-
-    console.log(targetCoords);
   }
 }

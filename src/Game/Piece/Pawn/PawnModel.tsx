@@ -10,6 +10,7 @@ export class Pawn extends Piece {
   readonly direction: Direction;
   readonly component: ReactNode = (<PieceComponent model={this} />);
 
+  public isSelected: boolean = false;
   public isFirstMove = true;
 
   // FIXME - en passant move can be exist if the pawn first move was on 2 cells forward
@@ -81,12 +82,12 @@ export class Pawn extends Piece {
       coords.push(`${rightX}${nextY}`);
 
     // 5. Left en passant
-    console.log(
-      'LP: ',
-      leftPiece,
-      leftPiece?.name,
-      leftPiece?.isUnderEnPassant
-    );
+    // console.log(
+    //   'LP: ',
+    //   leftPiece,
+    //   leftPiece?.name,
+    //   leftPiece?.isUnderEnPassant
+    // );
     if (
       leftPiece &&
       leftPiece.name === Pieces.PAWN &&
@@ -99,12 +100,12 @@ export class Pawn extends Piece {
     }
 
     // 6. Right en passant
-    console.log(
-      'RP: ',
-      rightPiece,
-      rightPiece?.name,
-      rightPiece?.isUnderEnPassant
-    );
+    // console.log(
+    //   'RP: ',
+    //   rightPiece,
+    //   rightPiece?.name,
+    //   rightPiece?.isUnderEnPassant
+    // );
     if (
       rightPiece &&
       rightPiece.name === Pieces.PAWN &&
