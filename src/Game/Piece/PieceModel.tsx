@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Coordinates, xType, xyType, yType } from '../Coordinates/Coordinates';
 import { Color, Direction, Pieces } from '../types';
+import { BoardTypeObject } from '../Board/BoardModel';
 
 export abstract class Piece {
   abstract readonly name: Pieces;
@@ -18,6 +19,10 @@ export abstract class Piece {
   // PAWN SPECIFIC FLAGS
 
   abstract isSelected: boolean;
+  abstract readonly _targets: xyType[];
+
+  // setting and return targets array
+  abstract get targets(): xyType[];
 
   constructor(coords: xyType, color: Color) {
     this.setNewCoords(coords);
@@ -25,8 +30,7 @@ export abstract class Piece {
     this.direction = color === 'white' ? 1 : -1;
   }
 
-  public abstract getTargets(): xyType[];
-  // {
+  // public getTargets(): xyType[] {
   //   const coords: xyType[] = Coordinates.xyArray.filter((el) => {
   //     return (
   //       el !== this.coordinates &&
@@ -43,7 +47,11 @@ export abstract class Piece {
     this._y = Coordinates.getY(coords);
   }
 
-  abstract move(): void;
+  public move(board: BoardTypeObject, newCoords: xyType): void {
+    board[this.coordinates].piece = null;
+    board[newCoords].piece = this;
+    this.setNewCoords(newCoords);
+  }
 
   get coordinates() {
     return this._coordinates;
