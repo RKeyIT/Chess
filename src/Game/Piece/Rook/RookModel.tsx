@@ -3,7 +3,7 @@ import { Piece } from '../PieceModel';
 import { PieceComponent } from '../PieceComponent';
 import { Color, Pieces } from '../../types';
 import { Board } from '../../Board/BoardModel';
-import { xyType } from '../../Coordinates/Coordinates';
+import { Coordinates, xyType } from '../../Coordinates/Coordinates';
 
 export class Rook extends Piece {
   readonly name = Pieces.ROOK;
@@ -17,4 +17,15 @@ export class Rook extends Piece {
     const newCoords = (this.x + String(Number(this.y) + 1)) as xyType;
     Board.movePiece(this, newCoords);
   };
+
+  public getTargets(): xyType[] {
+    const coords: xyType[] = Coordinates.xyArray.filter((el) => {
+      return (
+        el !== this.coordinates &&
+        Board.getFieldLink(el).piece?.color !== this.color
+      );
+    });
+
+    return coords;
+  }
 }

@@ -1,5 +1,10 @@
 import { ReactNode } from 'react';
-import { Coordinates, xyType, yType } from '../../Coordinates/Coordinates';
+import {
+  Coordinates,
+  xType,
+  xyType,
+  yType,
+} from '../../Coordinates/Coordinates';
 import { Color, Direction, Pieces } from '../../types';
 import { Piece } from '../PieceModel';
 import { Board } from '../../Board/BoardModel';
@@ -9,6 +14,7 @@ export class Pawn extends Piece {
   readonly name = Pieces.PAWN;
   readonly direction: Direction;
   readonly component: ReactNode = (<PieceComponent model={this} />);
+  readonly _targets: xyType[] = [];
 
   public isSelected: boolean = false;
   public isFirstMove = true;
@@ -21,13 +27,10 @@ export class Pawn extends Piece {
     this.direction = this.color === 'white' ? 1 : -1;
   }
 
-  // FIXME - NOT USABLE METHOD!
-  override move = () => {
-    const newCoords = (this.x + String(Number(this.y) + 1)) as xyType;
-    Board.movePiece(this, newCoords);
-  };
+  get targets(): xyType[] {
+    // Re-Zero targets
+    this._targets.length = 0;
 
-  public override getTargets(): xyType[] {
     /* Possible Pawn moves
       1. this.y + 1               === common move
       2. this.y + 2               === available if it first move
@@ -36,89 +39,82 @@ export class Pawn extends Piece {
       5. this.x - 1 && this.y + 2 === left en passant
       6. this.x + 1 && this.y + 2 === right en passant
     */
-    const coords: xyType[] = [];
-    // const yFirstMove: yType = String(+this.y + 1) as yType;
 
-    const commonMove: xyType = `${this.x}${
-      String(+this.y + this.direction) as yType
-    }`;
-    const firstMove: xyType = `${this.x}${
-      String(+this.y + this.direction * 2) as yType
-    }`;
+    const getPiece = (x: xType | null, y: yType | null) => {
+      return x && y && Board.getFieldLink(`${x}${y}`).piece;
+    };
+
+    const isEnPassantable = (piece: Piece) => {
+      return piece.name === Pieces.PAWN && piece.isUnderEnPassant;
+    };
+
+    // FIXME - use Coordinates static methods!
+    const x = this.x;
+    const y = this.y;
+
+    const nextY = Coordinates.getNextCoordinate(y, this.direction);
+
+    if (!nextY) {
+      // NOTE - Leaving method if we on bound of board
+      return this._targets;
+    }
+
+    const leftX = Coordinates.getNextCoordinate(x, -1);
+    const rightX = Coordinates.getNextCoordinate(x, 1);
+
+    const leftDiagonalPiece = getPiece(leftX, nextY);
+    const rightDiagonalPiece = getPiece(rightX, nextY);
+    const leftPiece = getPiece(leftX, y);
+    const rightPiece = getPiece(rightX, y);
 
     // 1. Common move
-    if (
-      Coordinates.isAvailableXY(commonMove) &&
-      !Board.getFieldLink(commonMove).piece
-    ) {
-      coords.push(commonMove);
+    if (!getPiece(x, nextY)) {
+      this._targets.push(`${x}${nextY}`);
     }
 
     // 2. First move
-    if (
-      this.isFirstMove &&
-      Coordinates.isAvailableXY(firstMove) &&
-      !Board.getFieldLink(firstMove).piece
-    ) {
-      coords.push(firstMove);
+    if (this.isFirstMove) {
+      const dblY = Coordinates.getNextCoordinate(nextY, this.direction);
+
+      if (dblY && !getPiece(x, dblY)) {
+        this._targets.push(`${x}${dblY}`);
+      }
     }
 
-    const nextY = Coordinates.getNextCoordinate(this.y, this.direction);
-    const leftX = Coordinates.getNextCoordinate(this.x, -1);
-    const rightX = Coordinates.getNextCoordinate(this.x, 1);
-    const leftDiagonalPiece =
-      leftX && nextY && Board.getFieldLink(`${leftX}${nextY}`).piece;
-    const rightDiagonalPiece =
-      rightX && nextY && Board.getFieldLink(`${rightX}${nextY}`).piece;
-    const leftPiece = leftX && Board.getFieldLink(`${leftX}${this.y}`).piece;
-    const rightPiece = rightX && Board.getFieldLink(`${rightX}${this.y}`).piece;
+    if (leftX) {
+      // 3. Left diagonal attack
+      if (leftDiagonalPiece && leftDiagonalPiece.color !== this.color)
+        this._targets.push(`${leftX}${nextY}`);
 
-    // 3. Left diagonal attack
-    if (leftDiagonalPiece && leftDiagonalPiece.color !== this.color)
-      coords.push(`${leftX}${nextY}`);
+      // 5. Left en passant
+      if (leftPiece && isEnPassantable(leftPiece)) {
+        console.log('Left En Passant case');
+        const enPassantY = Coordinates.getNextCoordinate(
+          this.y,
+          this.direction
+        );
 
-    // 4. Right diagonal attack
-    if (rightDiagonalPiece && rightDiagonalPiece.color !== this.color)
-      coords.push(`${rightX}${nextY}`);
-
-    // 5. Left en passant
-    // console.log(
-    //   'LP: ',
-    //   leftPiece,
-    //   leftPiece?.name,
-    //   leftPiece?.isUnderEnPassant
-    // );
-    if (
-      leftPiece &&
-      leftPiece.name === Pieces.PAWN &&
-      leftPiece.isUnderEnPassant
-    ) {
-      console.log('En Passant case');
-      const enPassantY = Coordinates.getNextCoordinate(this.y, this.direction);
-
-      enPassantY && coords.push(`${leftX}${enPassantY}`);
+        enPassantY && this._targets.push(`${leftX}${enPassantY}`);
+      }
     }
 
-    // 6. Right en passant
-    // console.log(
-    //   'RP: ',
-    //   rightPiece,
-    //   rightPiece?.name,
-    //   rightPiece?.isUnderEnPassant
-    // );
-    if (
-      rightPiece &&
-      rightPiece.name === Pieces.PAWN &&
-      rightPiece.isUnderEnPassant
-    ) {
-      console.log('En Passant case');
-      const enPassantY = Coordinates.getNextCoordinate(this.y, this.direction);
+    if (rightX) {
+      // 4. Right diagonal attack
+      if (rightDiagonalPiece && rightDiagonalPiece.color !== this.color)
+        this._targets.push(`${rightX}${nextY}`);
 
-      enPassantY && coords.push(`${rightX}${enPassantY}`);
+      // 6. Right en passant
+      if (rightPiece && isEnPassantable(rightPiece)) {
+        console.log('Right En Passant case');
+        const enPassantY = Coordinates.getNextCoordinate(
+          this.y,
+          this.direction
+        );
+
+        enPassantY && this._targets.push(`${rightX}${enPassantY}`);
+      }
     }
 
-    // console.log(coords);
-
-    return coords;
+    return this._targets;
   }
 }
