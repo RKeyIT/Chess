@@ -146,7 +146,9 @@ export class Board {
 
     // 1. Piece selection logic
     if (!Board.selectedPiece || Board.selectedPiece.color === piece?.color) {
-      this.cancellHighlightingTargets();
+      if (Board.selectedPiece) {
+        this.cancellHighlightingTargets();
+      }
 
       if (piece) {
         Board.selectPiece(piece);
