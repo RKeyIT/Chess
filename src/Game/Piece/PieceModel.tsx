@@ -48,6 +48,7 @@ export abstract class Piece {
   }
 
   public move(board: BoardTypeObject, newCoords: xyType): void {
+    // FIXME - Fix piece selection view
     // TODO - En Passant special move
     /* 
       1. If it was first move of current pawn - set this flag to false

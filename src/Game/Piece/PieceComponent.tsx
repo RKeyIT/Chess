@@ -10,6 +10,7 @@ import { RookComponent } from './Rook/RookComponent';
 export interface IPieceProps {
   model: Piece;
 }
+// FIXME - Fix piece selection view - tip in CellModel refreshComponent()!
 
 export function PieceComponent({ model }: IPieceProps) {
   const pieceObject = {

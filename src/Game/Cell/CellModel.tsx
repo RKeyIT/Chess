@@ -19,6 +19,7 @@ export class Cell {
     return this._isUnderAttack;
   }
   set isUnderAttack(value: boolean) {
+    // TODO - This move can be accept to highlight selected piece
     this._isUnderAttack = value;
     this.refreshComponent();
   }
