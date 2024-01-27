@@ -142,6 +142,11 @@ export class Board {
     const target = Event.target as HTMLDivElement;
     const cellCoords: xyType = target.dataset.coordinates as xyType;
     const targetField = Board.getFieldLink(cellCoords);
+
+    // if we'll try to drag cells we'll receive Board component to target
+    // console.log(target) // NOTE <-- Board
+    if (!targetField) return;
+
     const piece = targetField.piece;
 
     // 1. Piece selection logic
