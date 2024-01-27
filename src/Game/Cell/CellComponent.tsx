@@ -2,11 +2,11 @@ import { Cell } from './CellModel';
 import styles from './CellStyles.module.css';
 
 interface ICellProps {
-  CellModel: Cell;
+  model: Cell;
 }
 
-export function CellComponent({ CellModel }: ICellProps) {
-  const { color, coordinates, boardField, isUnderAttack } = CellModel;
+export function CellComponent({ model }: ICellProps) {
+  const { color, coordinates, boardField, isUnderAttack } = model;
   const piece = boardField.piece;
 
   const classNames = `${styles.Cell} ${styles[color]} ${

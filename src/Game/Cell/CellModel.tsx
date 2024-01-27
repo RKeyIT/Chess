@@ -26,7 +26,7 @@ export class Cell {
 
   refreshComponent = () => {
     this._component = (
-      <CellComponent key={this.color + this.coordinates} CellModel={this} />
+      <CellComponent key={this.color + this.coordinates} model={this} />
     );
   };
 
