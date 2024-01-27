@@ -133,23 +133,25 @@ export class Board {
         0. Getting target coordinates
         1. Piece selection logic
         2. Piece already selected
-          2.1. Click to unavailable zone
-          2.2. Click to correct target
+          2.1. Click to piece with same color
+          2.2. Click to unavailable zone
+          2.3. Click to correct target
       */
 
     // 0. Getting target coordinates
     const target = Event.target as HTMLDivElement;
     const cellCoords: xyType = target.dataset.coordinates as xyType;
     const targetField = Board.getFieldLink(cellCoords);
+    const piece = targetField.piece;
 
     // 1. Piece selection logic
-    if (!Board.selectedPiece) {
-      const piece = targetField.piece;
+    if (!Board.selectedPiece || Board.selectedPiece.color === piece?.color) {
+      this.cancellHighlightingTargets();
 
       if (piece) {
         Board.selectPiece(piece);
         const targets: xyType[] = piece.targets;
-        console.log(targets);
+
         // highlight targets
         if (targets.length > 0) {
           this.highlightTargets(targets);
@@ -157,14 +159,14 @@ export class Board {
       }
     } else {
       // 2. Piece already selected
-      // 2.1. Click to unavailable zone
+      // 2.2. Click to unavailable zone
       const targets = Board.selectedPiece.targets;
 
       if (cellCoords && !targets.some((el) => el === cellCoords)) {
         Board.dropPiece();
       }
 
-      //  2.2. Click to correct target
+      //  2.3. Click to correct target
       if (cellCoords && targets.some((el) => el === cellCoords)) {
         const board = Board.instance.board;
         const prevCell = board[Board.selectedPiece.coordinates].cell;
