@@ -12,7 +12,6 @@ export function CellComponent({ model }: ICellProps) {
   const classNames = `${styles.Cell} ${styles[color]} ${
     piece && styles.WithPiece
   }  ${isUnderAttack && styles.UnderAttack}`;
-  // const [isActive, setActive] = useState(false);
 
   return (
     <div
