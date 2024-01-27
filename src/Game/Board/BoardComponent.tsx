@@ -1,22 +1,29 @@
+import { useState } from 'react';
 import { Coordinates, xyType } from '../Coordinates/Coordinates';
 import { Board } from './BoardModel';
 import styles from './BoardStyles.module.css';
 
 export function BoardComponent() {
-  // FIXME - Component should look for data only and do not to change it!
-
-  const board = Board.getInstanceLink().board;
   const coords: xyType[] = Coordinates.xyArray;
 
-  const renderBoard = () => {
+  const [board, setBoard] = useState(Board.getInstanceLink().board);
+  const [renderedBoard, setRenderedBoard] = useState(renderBoard());
+
+  function renderBoard() {
     return coords.map((coord: xyType) => {
       return board[coord].cell.component;
     });
-  };
+  }
+
+  function handleClick(e: React.MouseEvent) {
+    Board.click(e);
+    setBoard(Board.getInstanceLink().board);
+    setRenderedBoard(renderBoard());
+  }
 
   return (
-    <div className={styles.Board} onClick={Board.click}>
-      {renderBoard()}
+    <div className={styles.Board} onClick={handleClick}>
+      {renderedBoard}
     </div>
   );
 }
