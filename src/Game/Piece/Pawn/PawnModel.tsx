@@ -76,7 +76,7 @@ export class Pawn extends Piece {
     if (this.isFirstMove) {
       const dblY = Coordinates.getNextCoordinate(nextY, this.direction);
 
-      if (dblY && !getPiece(x, dblY)) {
+      if (dblY && !getPiece(x, dblY) && !getPiece(x, nextY)) {
         this._targets.push(`${x}${dblY}`);
       }
     }
