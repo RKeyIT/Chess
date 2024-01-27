@@ -179,6 +179,12 @@ export class Board {
         const prevCell = board[Board.selectedPiece.coordinates].cell;
         const nextCell = board[cellCoords].cell;
 
+        // TODO - En Passant special move
+        /* 
+          1. If it was first move of current pawn - set this flag to false
+          2. Add this coordinates to board.underEnPassantCoords[]
+        */
+
         Board.selectedPiece.move(board, cellCoords);
         Board.dropPiece();
 

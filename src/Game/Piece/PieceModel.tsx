@@ -48,6 +48,12 @@ export abstract class Piece {
   }
 
   public move(board: BoardTypeObject, newCoords: xyType): void {
+    // TODO - En Passant special move
+    /* 
+      1. If it was first move of current pawn - set this flag to false
+      2. Add this coordinates to board.underEnPassantCoords[]
+    */
+
     board[this.coordinates].piece = null;
     board[newCoords].piece = this;
     this.setNewCoords(newCoords);
