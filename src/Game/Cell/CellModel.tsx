@@ -14,7 +14,14 @@ export class Cell {
   private _boardField!: IBoardField;
   private _component: ReactNode;
 
-  public isUnderAttack: boolean = false;
+  private _isUnderAttack: boolean = false;
+  get isUnderAttack() {
+    return this._isUnderAttack;
+  }
+  set isUnderAttack(value: boolean) {
+    this._isUnderAttack = value;
+    this.refreshComponent();
+  }
 
   constructor(coordinates: xyType) {
     this.coordinates = coordinates;
