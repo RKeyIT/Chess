@@ -11,13 +11,14 @@
     pointer-events: none;
 }
 
-.Cell.WithPiece {
+.Cell.WithPiece,
+.Cell.UnderAttack {
     cursor: pointer;
 }
 
 .Cell.active,
 .Cell.active:hover .highlighter {
-    box-shadow: inset 0 0 calc(var(--cell-size) / 2) 0 var(--active) !important;
+    box-shadow: inset 0 0 calc(var(--cell-size) / 2) 0 var(--active-piece) !important;
 }
 
 .Cell.white {
@@ -43,12 +44,25 @@
     background-color: var(--highlighter-1-trans);
 }
 
+.Cell:active .highlighter {
+    background-color: var(--highlighter-2-trans);
+}
+
 .Cell.UnderAttack .highlighter {
     background-color: var(--highlighter-underattack);
 }
 
+
 .Cell.UnderAttack:hover .highlighter {
     box-shadow: inset 0 0 calc(var(--cell-size) / 2) 0 var(--highlighter-underattack-hover) !important;
+}
+
+.Cell.WithPiece.UnderAttack:hover .highlighter {
+    box-shadow: inset 0 0 calc(var(--cell-size) / 5) 0 var(--highlighter-underattack-enemy-hover) !important;
+}
+
+.Cell.WithPiece.UnderAttack .highlighter {
+    box-shadow: inset 0 0 calc(var(--cell-size) / 5) 0 var(--highlighter-underattack-enemy) !important;
 }
 
 .Cell.white:hover .highlighter {
