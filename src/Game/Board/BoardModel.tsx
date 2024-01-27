@@ -5,7 +5,7 @@ import { Piece } from '../Piece/PieceModel';
 import { BoardComponent } from './BoardComponent';
 import { Pawn } from '../Piece/Pawn/PawnModel';
 import { Rook } from '../Piece/Rook/RookModel';
-import Knight from '../Piece/Knight/KnightModel';
+import { Knight } from '../Piece/Knight/KnightModel';
 import { Bishop } from '../Piece/Bishop/BishopModel';
 import { Queen } from '../Piece/Queen/QueenModel';
 import { King } from '../Piece/King/KingModel';
@@ -21,6 +21,7 @@ export class Board {
   private constructor() {}
   private static instance: Board = new Board();
   private static selectedPiece: Piece | null = null;
+  private static highlightedCoords: xyType[] = [];
 
   readonly board: BoardTypeObject = Board.createBoard();
   readonly component: ReactNode = (<BoardComponent />);
@@ -92,37 +93,40 @@ export class Board {
     board.E8.piece = new King('E8', 'black');
   }
 
-  private static selectPiece(targetField: IBoardField | null) {
-    if (targetField && targetField.piece) {
-      targetField.piece.isSelected = true;
-      Board.selectedPiece = targetField.piece;
-    } else {
-      if (Board.selectedPiece) {
-        Board.selectedPiece.isSelected = false;
-        Board.selectedPiece = null;
-      }
+  private static selectPiece(piece: Piece) {
+    Board.selectedPiece = piece;
+    Board.selectedPiece.isSelected = true;
+  }
+  private static dropPiece() {
+    if (Board.selectedPiece) {
+      Board.selectedPiece.isSelected = false;
     }
+
+    Board.selectedPiece = null;
+  }
+
+  private static highlightTargets(targets: xyType[]) {
+    this.highlightedCoords = [...targets];
+
+    this.highlightedCoords.forEach((coord) => {
+      this.instance.board[coord].cell.isUnderAttack = true;
+    });
+  }
+  private static cancellHighlightingTargets() {
+    this.highlightedCoords.forEach((coord) => {
+      this.instance.board[coord].cell.isUnderAttack = false;
+    });
+
+    this.highlightedCoords.length = 0;
   }
 
   // NOTE - PUBLIC methods
   static getInstanceLink = (): Board => Board.instance;
+  static getBoardLink = (): BoardTypeObject => Board.instance.board;
 
   static getFieldLink(coordinates: xyType): IBoardField {
     return Board.instance.board[coordinates];
   }
-
-  static movePiece = (piece: Piece, nextCoords: xyType) => {
-    const prevField = this.getFieldLink(piece.coordinates);
-    const nextField = this.getFieldLink(nextCoords);
-
-    nextField.piece = piece;
-    prevField.piece = null;
-
-    piece.setNewCoords(nextCoords);
-
-    nextField.cell.refreshComponent();
-    prevField.cell.refreshComponent();
-  };
 
   static click(Event: React.MouseEvent) {
     /* NOTE - Conditions & Scenarios
@@ -135,25 +139,45 @@ export class Board {
 
     // 0. Getting target coordinates
     const target = Event.target as HTMLDivElement;
-    const targetCoords: xyType = target.dataset.coordinates as xyType;
-    const targetField = Board.getFieldLink(targetCoords);
+    const cellCoords: xyType = target.dataset.coordinates as xyType;
+    const targetField = Board.getFieldLink(cellCoords);
 
     // 1. Piece selection logic
-    if (!Board.selectedPiece) Board.selectPiece(targetField);
+    if (!Board.selectedPiece) {
+      const piece = targetField.piece;
 
-    // 2. Piece already selected
-    if (Board.selectedPiece) {
-      const targets: xyType[] = Board.selectedPiece.getTargets();
-
+      if (piece) {
+        Board.selectPiece(piece);
+        const targets: xyType[] = piece.targets;
+        console.log(targets);
+        // highlight targets
+        if (targets.length > 0) {
+          this.highlightTargets(targets);
+        }
+      }
+    } else {
+      // 2. Piece already selected
       // 2.1. Click to unavailable zone
-      if (targetCoords && !targets.some((el) => el === targetCoords)) {
-        Board.selectPiece(null);
+      const targets = Board.selectedPiece.targets;
+
+      if (cellCoords && !targets.some((el) => el === cellCoords)) {
+        Board.dropPiece();
       }
 
-      if (targetCoords && targets.some((el) => el === targetCoords)) {
-        Board.movePiece(Board.selectedPiece, targetCoords);
-        Board.selectPiece(null);
+      //  2.2. Click to correct target
+      if (cellCoords && targets.some((el) => el === cellCoords)) {
+        const board = Board.instance.board;
+        const prevCell = board[Board.selectedPiece.coordinates].cell;
+        const nextCell = board[cellCoords].cell;
+
+        Board.selectedPiece.move(board, cellCoords);
+        Board.dropPiece();
+
+        prevCell.refreshComponent();
+        nextCell.refreshComponent();
       }
+
+      this.cancellHighlightingTargets();
     }
   }
 }
