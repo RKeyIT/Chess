@@ -18,6 +18,7 @@ export abstract class Piece {
   abstract isUnderEnPassant: boolean;
   // PAWN SPECIFIC FLAGS
 
+  // FIXME - selected model is not show selection visually
   abstract isSelected: boolean;
   abstract readonly _targets: xyType[];
 
