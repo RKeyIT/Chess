@@ -1,5 +1,5 @@
-import styles from '../Piece.module.css';
-import { IPieceProps } from '../PieceComponent';
+import styles from './Piece.module.css';
+import { IPieceProps } from './PieceComponent';
 
 export function QueenComponent({ model }: IPieceProps) {
   return (

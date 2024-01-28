@@ -1,4 +1,4 @@
-import { Cell } from './CellModel';
+import { Cell } from '../model/CellModel';
 import styles from './CellStyles.module.css';
 
 interface ICellProps {

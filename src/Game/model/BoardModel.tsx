@@ -1,14 +1,14 @@
 import { ReactNode } from 'react';
-import { Cell } from '../Cell/CellModel';
-import { Coordinates, xyType, yType } from '../Coordinates/Coordinates';
-import { Piece } from '../Piece/PieceModel';
-import { BoardComponent } from './BoardComponent';
-import { Pawn } from '../Piece/Pawn/PawnModel';
-import { Rook } from '../Piece/Rook/RookModel';
-import { Knight } from '../Piece/Knight/KnightModel';
-import { Bishop } from '../Piece/Bishop/BishopModel';
-import { Queen } from '../Piece/Queen/QueenModel';
-import { King } from '../Piece/King/KingModel';
+import { Cell } from './CellModel';
+import { Coordinates, xyType, yType } from './Coordinates';
+import { Piece } from './Piece/PieceModel';
+import { BoardComponent } from '../view/BoardComponent';
+import { Pawn } from './Piece/PawnModel';
+import { Rook } from './Piece/RookModel';
+import { Knight } from './Piece/KnightModel';
+import { Bishop } from './Piece/BishopModel';
+import { Queen } from './Piece/QueenModel';
+import { King } from './Piece/KingModel';
 
 export type BoardTypeObject = Record<xyType, IBoardField>;
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Piece } from '../Piece/PieceModel';
-import { xyType } from '../Coordinates/Coordinates';
-import { IBoardField } from '../Board/BoardModel';
+import { Piece } from '../model/Piece/PieceModel';
+import { xyType } from '../model/Coordinates';
+import { IBoardField } from '../model/BoardModel';
 
 interface IBoardState {
   selectedPiece: Piece | null; // pickedPiece state

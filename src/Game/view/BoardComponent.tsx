@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Coordinates, xyType } from '../Coordinates/Coordinates';
-import { Board } from './BoardModel';
+import { Coordinates, xyType } from '../model/Coordinates';
+import { Board } from '../model/BoardModel';
 import styles from './BoardStyles.module.css';
 
 export function BoardComponent() {

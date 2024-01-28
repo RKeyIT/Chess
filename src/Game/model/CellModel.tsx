@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
-import { Coordinates, xType, xyType, yType } from '../Coordinates/Coordinates';
+import { Coordinates, xType, xyType, yType } from './Coordinates';
 import { Color } from '../types';
-import { CellComponent } from './CellComponent';
-import { Board, IBoardField } from '../Board/BoardModel';
+import { CellComponent } from '../view/CellComponent';
+import { Board, IBoardField } from './BoardModel';
 
 export class Cell {
   readonly coordinates: xyType;

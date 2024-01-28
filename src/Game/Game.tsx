@@ -1,5 +1,5 @@
 import styles from './Game.module.css';
-import { Board } from './Board/BoardModel';
+import { Board } from './model/BoardModel';
 
 export function Game() {
   const board = Board.getInstanceLink();

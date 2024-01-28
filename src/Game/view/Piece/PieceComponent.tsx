@@ -1,11 +1,11 @@
-import { Pieces } from '../types';
-import { BishopComponent } from './Bishop/BishopComponent';
-import { KingComponent } from './King/KingComponent';
-import { KnightComponent } from './Knight/KnightComponent';
-import { PawnComponent } from './Pawn/PawnComponent';
-import { Piece } from './PieceModel';
-import { QueenComponent } from './Queen/QueenComponent';
-import { RookComponent } from './Rook/RookComponent';
+import { Pieces } from '../../types';
+import { BishopComponent } from './BishopComponent';
+import { KingComponent } from './KingComponent';
+import { KnightComponent } from './KnightComponent';
+import { PawnComponent } from './PawnComponent';
+import { Piece } from '../../model/Piece/PieceModel';
+import { QueenComponent } from './QueenComponent';
+import { RookComponent } from './RookComponent';
 
 export interface IPieceProps {
   model: Piece;
