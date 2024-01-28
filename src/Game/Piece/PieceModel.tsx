@@ -56,6 +56,7 @@ export abstract class Piece {
       2. Add this coordinates to board.underEnPassantCoords[]
     */
 
+    // this.isSelected = false; // NOTE <-- This logic implemented in BoardModel
     board[this.coordinates].piece = null;
     board[newCoords].piece = this;
     this.setNewCoords(newCoords);
