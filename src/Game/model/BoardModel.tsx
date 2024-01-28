@@ -42,11 +42,11 @@ export class Board {
   }
 
   private static spawnPiecesToCommonPositions(board: BoardTypeObject): void {
-    // this.spawnKingsCommonly(board);
-    // this.spawnQueensCommonly(board);
-    // this.spawnBishopsCommonly(board);
-    // this.spawnKnightsCommonly(board);
-    // this.spawnRooksCommonly(board);
+    this.spawnKingsCommonly(board);
+    this.spawnQueensCommonly(board);
+    this.spawnBishopsCommonly(board);
+    this.spawnKnightsCommonly(board);
+    this.spawnRooksCommonly(board);
     this.spawnPawnsCommonly(board);
   }
 
