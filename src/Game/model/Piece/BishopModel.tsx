@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { Piece } from './PieceModel';
-import { PieceComponent } from '../../view/Piece/PieceComponent';
 import { Color, Pieces } from '../../types';
 import { xyType } from '../Coordinates';
 
@@ -11,7 +10,6 @@ export class Bishop extends Piece {
 
   // Other fields
   readonly name = Pieces.BISHOP;
-  readonly component: ReactNode = (<PieceComponent model={this} />);
 
   readonly _targets: xyType[] = [];
   public isSelected: boolean = false;

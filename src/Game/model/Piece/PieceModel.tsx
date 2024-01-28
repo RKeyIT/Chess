@@ -1,11 +1,9 @@
-import { ReactNode } from 'react';
 import { Coordinates, xType, xyType, yType } from '../Coordinates';
 import { Color, Direction, Pieces } from '../../types';
 import { BoardTypeObject } from '../BoardModel';
 
 export abstract class Piece {
   abstract readonly name: Pieces;
-  abstract readonly component: ReactNode;
   readonly color: Color;
 
   private _coordinates!: xyType;

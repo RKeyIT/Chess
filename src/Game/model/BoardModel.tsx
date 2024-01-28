@@ -41,7 +41,7 @@ export class Board {
     return newBoard;
   }
 
-  private static spawnPiecesToCommonPositions(board: BoardTypeObject) {
+  private static spawnPiecesToCommonPositions(board: BoardTypeObject): void {
     // this.spawnKingsCommonly(board);
     // this.spawnQueensCommonly(board);
     // this.spawnBishopsCommonly(board);
@@ -65,39 +65,40 @@ export class Board {
     }
   }
 
-  private static spawnRooksCommonly(board: BoardTypeObject) {
+  private static spawnRooksCommonly(board: BoardTypeObject): void {
     board.A1.piece = new Rook('A1', 'white');
     board.H1.piece = new Rook('A8', 'white');
     board.A8.piece = new Rook('A8', 'black');
     board.H8.piece = new Rook('H8', 'black');
   }
 
-  private static spawnKnightsCommonly(board: BoardTypeObject) {
+  private static spawnKnightsCommonly(board: BoardTypeObject): void {
     board.B1.piece = new Knight('B1', 'white');
     board.G1.piece = new Knight('G1', 'white');
     board.B8.piece = new Knight('B8', 'black');
     board.G8.piece = new Knight('G8', 'black');
   }
-  private static spawnBishopsCommonly(board: BoardTypeObject) {
+  private static spawnBishopsCommonly(board: BoardTypeObject): void {
     board.C1.piece = new Bishop('C1', 'white');
     board.F1.piece = new Bishop('F1', 'white');
     board.C8.piece = new Bishop('C8', 'black');
     board.F8.piece = new Bishop('F8', 'black');
   }
-  private static spawnQueensCommonly(board: BoardTypeObject) {
+  private static spawnQueensCommonly(board: BoardTypeObject): void {
     board.D1.piece = new Queen('D1', 'white');
     board.D8.piece = new Queen('D8', 'black');
   }
-  private static spawnKingsCommonly(board: BoardTypeObject) {
+  private static spawnKingsCommonly(board: BoardTypeObject): void {
     board.E1.piece = new King('E1', 'white');
     board.E8.piece = new King('E8', 'black');
   }
 
-  private static selectPiece(piece: Piece) {
+  private static selectPiece(piece: Piece): void {
     Board.selectedPiece = piece;
     Board.selectedPiece.isSelected = true;
   }
-  private static dropPiece() {
+
+  private static dropPiece(): void {
     if (Board.selectedPiece) {
       Board.selectedPiece.isSelected = false;
     }

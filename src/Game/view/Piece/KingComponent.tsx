@@ -1,5 +1,5 @@
+import { IPieceProps } from '../../types';
 import styles from './Piece.module.css';
-import { IPieceProps } from './PieceComponent';
 
 export function KingComponent({ model }: IPieceProps) {
   return (

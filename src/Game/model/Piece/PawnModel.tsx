@@ -1,14 +1,11 @@
-import { ReactNode } from 'react';
 import { Coordinates, xType, xyType, yType } from '../Coordinates';
 import { Color, Direction, Pieces } from '../../types';
 import { Piece } from './PieceModel';
 import { Board } from '../BoardModel';
-import { PieceComponent } from '../../view/Piece/PieceComponent';
 
 export class Pawn extends Piece {
   readonly name = Pieces.PAWN;
   readonly direction: Direction;
-  readonly component: ReactNode = (<PieceComponent model={this} />);
   readonly _targets: xyType[] = [];
 
   public isSelected: boolean = false;
