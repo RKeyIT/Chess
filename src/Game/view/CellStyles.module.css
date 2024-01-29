@@ -58,11 +58,11 @@
 }
 
 .Cell.WithPiece.UnderAttack:hover .highlighter {
-    box-shadow: inset 0 0 calc(var(--cell-size) / 5) 0 var(--highlighter-underattack-enemy-hover) !important;
+    box-shadow: inset 0 0 calc(var(--cell-size) / 2) 0 var(--highlighter-underattack-enemy-hover) !important;
 }
 
 .Cell.WithPiece.UnderAttack .highlighter {
-    box-shadow: inset 0 0 calc(var(--cell-size) / 5) 0 var(--highlighter-underattack-enemy) !important;
+    box-shadow: inset 0 0 calc(var(--cell-size) / 2) 0 var(--highlighter-underattack-enemy) !important;
 }
 
 .Cell.white:hover .highlighter {
