@@ -12,6 +12,7 @@ export class Cell {
 
   // NOTE - this field will implemented by "lazy" initialisation by it getter
   private _boardField!: IBoardField;
+  // FIXME - Remove view component from the model!
   private _component: ReactNode;
 
   private _isUnderAttack: boolean = false;
