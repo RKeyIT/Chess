@@ -93,7 +93,6 @@ export class Board {
   private static selectPiece(piece: Piece): void {
     this.selectedPiece = piece;
     this.selectedPiece.isSelected = true;
-    console.log('Selected: ', this.selectedPiece.coordinates);
   }
 
   private static dropPiece(): void {
@@ -101,7 +100,6 @@ export class Board {
       this.selectedPiece.isSelected = false;
     }
 
-    console.log('Dropped: ', this.selectedPiece?.coordinates);
     this.selectedPiece = null;
   }
 
