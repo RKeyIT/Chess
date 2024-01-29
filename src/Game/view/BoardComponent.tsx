@@ -1,34 +1,41 @@
 import { useState } from 'react';
 import { Coordinates, xyType } from '../model/Coordinates';
-import { Board } from '../model/BoardModel';
 import styles from './BoardStyles.module.css';
 import { CellComponent } from './CellComponent';
+import { BoardController } from '../controller/BoardController';
+import { BoardTypeObject } from '../model/BoardModel';
 
 // TODO - Refactor re-render logic to reach concrete cells rendering instead of full board
 export function BoardComponent() {
   const coords: xyType[] = Coordinates.xyArray;
 
-  const [board, setBoard] = useState(Board.getInstanceLink().board);
-  const [renderedBoard, setRenderedBoard] = useState(renderBoard());
+  const [state, setState] = useState({
+    board: BoardController.board,
+    view: renderBoard(BoardController.board),
+  });
 
-  function renderBoard() {
+  function renderBoard(defaultState: BoardTypeObject | null = null) {
     return coords.map((coord: xyType) => {
-      const model = board[coord].cell;
+      const model = defaultState
+        ? defaultState[coord].cell
+        : state.board[coord].cell;
       const { color, coordinates } = model;
 
       return <CellComponent key={color + coordinates} model={model} />;
     });
   }
 
-  function handleClick(e: React.MouseEvent) {
-    Board.click(e);
-    setBoard(Board.getInstanceLink().board);
-    setRenderedBoard(renderBoard());
+  function click(event: React.MouseEvent) {
+    BoardController.click(event);
+    setState((prev) => ({
+      ...prev,
+      view: renderBoard(),
+    }));
   }
 
   return (
-    <div className={styles.Board} onClick={handleClick}>
-      {renderedBoard}
+    <div className={styles.Board} onClick={click}>
+      {state.view}
     </div>
   );
 }

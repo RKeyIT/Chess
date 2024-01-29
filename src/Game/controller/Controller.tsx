@@ -1,2 +1,9 @@
-// type of any controller class can be extended by others
-// export abstract class Controller {}
+import { Board, BoardTypeObject } from '../model/BoardModel';
+
+export abstract class Controller {
+  private static _board: BoardTypeObject = Board.getInstanceLink().board;
+
+  static get board(): BoardTypeObject {
+    return this._board;
+  }
+}
