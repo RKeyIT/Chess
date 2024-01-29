@@ -1,8 +1,6 @@
-import { ReactNode } from 'react';
 import { Cell } from './CellModel';
 import { Coordinates, xyType, yType } from './Coordinates';
 import { Piece } from './Piece/PieceModel';
-import { BoardComponent } from '../view/BoardComponent';
 import { Pawn } from './Piece/PawnModel';
 import { Rook } from './Piece/RookModel';
 import { Knight } from './Piece/KnightModel';
