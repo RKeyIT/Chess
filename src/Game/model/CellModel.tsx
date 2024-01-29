@@ -1,8 +1,6 @@
-import { ReactNode } from 'react';
-import { Coordinates, xType, xyType, yType } from '../Coordinates/Coordinates';
+import { Coordinates, xType, xyType, yType } from './Coordinates';
 import { Color } from '../types';
-import { CellComponent } from './CellComponent';
-import { Board, IBoardField } from '../Board/BoardModel';
+import { Board, IBoardField } from './BoardModel';
 
 export class Cell {
   readonly coordinates: xyType;
@@ -10,25 +8,23 @@ export class Cell {
   readonly y: yType;
   readonly color: Color;
 
-  // NOTE - this field will implemented by "lazy" initialisation by it getter
+  // NOTE - this field will be "lazy" initialized (check getter)
   private _boardField!: IBoardField;
-  private _component: ReactNode;
 
-  public isUnderAttack: boolean = false;
+  private _isUnderAttack: boolean = false;
+  get isUnderAttack() {
+    return this._isUnderAttack;
+  }
+  set isUnderAttack(value: boolean) {
+    this._isUnderAttack = value;
+  }
 
   constructor(coordinates: xyType) {
     this.coordinates = coordinates;
     this.x = Coordinates.getX(coordinates);
     this.y = Coordinates.getY(coordinates);
     this.color = this.defineColor(this.x, this.y);
-    this.refreshComponent();
   }
-
-  refreshComponent = () => {
-    this._component = (
-      <CellComponent key={this.color + this.coordinates} CellModel={this} />
-    );
-  };
 
   // NOTE - "Lazy initialisation" pattern
   get boardField() {
@@ -37,10 +33,6 @@ export class Cell {
     }
 
     return this._boardField;
-  }
-
-  get component() {
-    return this._component;
   }
 
   private defineColor(x: xType, y: yType): Color {
