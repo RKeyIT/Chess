@@ -8,7 +8,7 @@ interface ICellProps {
 }
 
 interface ICellState {
-  component: ReactNode | null;
+  pieceComponent: ReactNode | null;
   css: string;
 }
 
@@ -17,7 +17,7 @@ export function CellComponent({ model }: ICellProps) {
   const piece = boardField.piece;
 
   const [state, setState] = useState<ICellState>({
-    component: null,
+    pieceComponent: null,
     css: `${styles.Cell} ${styles[color]}`,
   });
 
@@ -57,11 +57,11 @@ export function CellComponent({ model }: ICellProps) {
     piece
       ? setState((prev) => ({
           ...prev,
-          component: <PieceComponent model={piece} />,
+          pieceComponent: <PieceComponent model={piece} />,
         }))
       : setState((prev) => ({
           ...prev,
-          component: null,
+          pieceComponent: null,
         }));
   }
 
@@ -69,7 +69,7 @@ export function CellComponent({ model }: ICellProps) {
     <div className={state.css} data-coordinates={coordinates}>
       <div className={styles.coordinates}>{coordinates}</div>
       <div className={styles.highlighter}></div>
-      {state.component}
+      {state.pieceComponent}
     </div>
   );
 }
