@@ -24,7 +24,6 @@ export class Board {
   private static highlightedCoords: xyType[] = [];
 
   readonly board: BoardTypeObject = Board.createBoard();
-  readonly component: ReactNode = (<BoardComponent />);
 
   private static createBoard(): BoardTypeObject {
     const newBoard = {} as BoardTypeObject;
