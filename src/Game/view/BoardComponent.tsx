@@ -4,6 +4,7 @@ import { Board } from '../model/BoardModel';
 import styles from './BoardStyles.module.css';
 import { CellComponent } from './CellComponent';
 
+// TODO - Refactor re-render logic to reach concrete cells rendering instead of full board
 export function BoardComponent() {
   const coords: xyType[] = Coordinates.xyArray;
 
