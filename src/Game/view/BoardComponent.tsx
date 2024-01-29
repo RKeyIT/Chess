@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Coordinates, xyType } from '../model/Coordinates';
 import styles from './BoardStyles.module.css';
 import { CellComponent } from './CellComponent';
 import { BoardController } from '../controller/BoardController';
 import { BoardTypeObject } from '../model/BoardModel';
 
+interface IBoardState {
+  board: BoardTypeObject;
+  view: ReactNode[];
+}
+
 // TODO - Refactor re-render logic to reach concrete cells rendering instead of full board
 export function BoardComponent() {
   const coords: xyType[] = Coordinates.xyArray;
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<IBoardState>({
     board: BoardController.board,
     view: renderBoard(BoardController.board),
   });

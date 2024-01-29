@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IPieceProps } from '../../types';
+import { IPieceProps, IPieceState } from '../../types';
 import styles from './Piece.module.css';
 
 export function PawnComponent({ model }: IPieceProps) {
@@ -8,7 +8,7 @@ export function PawnComponent({ model }: IPieceProps) {
   const cssDefault = ` ${styles.Piece} ${styles[color]} `;
   const cssSelected = ` ${styles.active} `;
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<IPieceState>({
     css: cssDefault,
     svg: getSVG(cssDefault),
   });
