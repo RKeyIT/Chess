@@ -149,6 +149,12 @@ export class Board {
 
     // 1. Piece selection logic || Piece with same color already selected
     if (!this.selectedPiece || this.selectedPiece.color === piece?.color) {
+      if (this.selectedPiece === piece) {
+        this.cancellHighlightingTargets();
+        this.dropPiece();
+        return;
+      }
+
       if (this.selectedPiece) {
         this.cancellHighlightingTargets();
         this.dropPiece();
