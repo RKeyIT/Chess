@@ -91,16 +91,18 @@ export class Board {
   }
 
   private static selectPiece(piece: Piece): void {
-    Board.selectedPiece = piece;
-    Board.selectedPiece.isSelected = true;
+    this.selectedPiece = piece;
+    this.selectedPiece.isSelected = true;
+    console.log('Selected: ', this.selectedPiece.coordinates);
   }
 
   private static dropPiece(): void {
-    if (Board.selectedPiece) {
-      Board.selectedPiece.isSelected = false;
+    if (this.selectedPiece) {
+      this.selectedPiece.isSelected = false;
     }
 
-    Board.selectedPiece = null;
+    console.log('Dropped: ', this.selectedPiece?.coordinates);
+    this.selectedPiece = null;
   }
 
   private static highlightTargets(targets: xyType[]) {
@@ -119,11 +121,11 @@ export class Board {
   }
 
   // NOTE - PUBLIC methods
-  static getInstanceLink = (): Board => Board.instance;
-  static getBoardLink = (): BoardTypeObject => Board.instance.board;
+  static getInstanceLink = (): Board => this.instance;
+  static getBoardLink = (): BoardTypeObject => this.instance.board;
 
   static getFieldLink(coordinates: xyType): IBoardField {
-    return Board.instance.board[coordinates];
+    return this.instance.board[coordinates];
   }
 
   static click(Event: React.MouseEvent) {
@@ -147,14 +149,15 @@ export class Board {
 
     const piece = targetField.piece;
 
-    // 1. Piece selection logic
-    if (!Board.selectedPiece || Board.selectedPiece.color === piece?.color) {
-      if (Board.selectedPiece) {
+    // 1. Piece selection logic || Piece with same color already selected
+    if (!this.selectedPiece || this.selectedPiece.color === piece?.color) {
+      if (this.selectedPiece) {
         this.cancellHighlightingTargets();
+        this.dropPiece();
       }
 
       if (piece) {
-        Board.selectPiece(piece);
+        this.selectPiece(piece);
         const targets: xyType[] = piece.targets;
 
         // highlight targets
@@ -165,15 +168,15 @@ export class Board {
     } else {
       // 2. Piece already selected
       // 2.2. Click to unavailable zone
-      const targets = Board.selectedPiece.targets;
+      const targets = this.selectedPiece.targets;
 
       if (cellCoords && !targets.some((el) => el === cellCoords)) {
-        Board.dropPiece();
+        this.dropPiece();
       }
 
       //  2.3. Click to correct target
       if (cellCoords && targets.some((el) => el === cellCoords)) {
-        const board = Board.instance.board;
+        const board = this.instance.board;
 
         // TODO - En Passant special move
         /* 
@@ -181,8 +184,8 @@ export class Board {
           2. Add this coordinates to board.underEnPassantCoords[]
         */
 
-        Board.selectedPiece.move(board, cellCoords);
-        Board.dropPiece();
+        this.selectedPiece.move(board, cellCoords);
+        this.dropPiece();
       }
 
       this.cancellHighlightingTargets();
