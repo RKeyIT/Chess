@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Coordinates, xyType } from '../model/Coordinates';
 import { Board } from '../model/BoardModel';
 import styles from './BoardStyles.module.css';
+import { CellComponent } from './CellComponent';
 
 export function BoardComponent() {
   const coords: xyType[] = Coordinates.xyArray;
@@ -11,7 +12,10 @@ export function BoardComponent() {
 
   function renderBoard() {
     return coords.map((coord: xyType) => {
-      return board[coord].cell.component;
+      const model = board[coord].cell;
+      const { color, coordinates } = model;
+
+      return <CellComponent key={color + coordinates} model={model} />;
     });
   }
 

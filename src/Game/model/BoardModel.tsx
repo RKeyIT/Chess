@@ -174,8 +174,6 @@ export class Board {
       //  2.3. Click to correct target
       if (cellCoords && targets.some((el) => el === cellCoords)) {
         const board = Board.instance.board;
-        const prevCell = board[Board.selectedPiece.coordinates].cell;
-        const nextCell = board[cellCoords].cell;
 
         // TODO - En Passant special move
         /* 
@@ -185,9 +183,6 @@ export class Board {
 
         Board.selectedPiece.move(board, cellCoords);
         Board.dropPiece();
-
-        prevCell.refreshComponent();
-        nextCell.refreshComponent();
       }
 
       this.cancellHighlightingTargets();
