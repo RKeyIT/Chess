@@ -1,7 +1,6 @@
 // General types
 
 import { ReactNode } from 'react';
-import { Piece } from './model/Piece/PieceModel';
 
 export type Color = 'white' | 'black';
 export type Direction = 1 | -1;
@@ -16,7 +15,7 @@ export enum Pieces {
 }
 
 export interface IPieceProps {
-  model: Piece;
+  css: string;
 }
 
 export interface IPieceState {

@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Cell } from '../model/CellModel';
 import styles from './CellStyles.module.css';
-import { PieceComponents } from './Piece/PieceComponents';
+import { PieceComponent } from './Pieces/PieceComponent';
 
 interface ICellProps {
   model: Cell;
@@ -57,7 +57,7 @@ export function CellComponent({ model }: ICellProps) {
     piece
       ? setState((prev) => ({
           ...prev,
-          component: PieceComponents.get(piece),
+          component: <PieceComponent model={piece} />,
         }))
       : setState((prev) => ({
           ...prev,
