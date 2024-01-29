@@ -16,7 +16,8 @@ export function CellComponent({ model }: ICellProps) {
 
   useEffect(() => {
     refreshPieceComponent();
-  }, [piece]);
+    refreshPieceComponent();
+  }, [piece, piece?.isSelected]);
 
   useEffect(() => {
     const cellDefault = ` ${styles.Cell} ${styles[color]} `;
