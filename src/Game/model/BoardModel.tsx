@@ -119,6 +119,7 @@ export class Board {
   }
 
   // NOTE - PUBLIC methods
+  static get board() { return this.instance.board }
   static getInstanceLink = (): Board => this.instance;
   static getBoardLink = (): BoardTypeObject => this.instance.board;
 
@@ -126,7 +127,7 @@ export class Board {
     return this.instance.board[coordinates];
   }
 
-  static click(Event: React.MouseEvent) {
+  static click(coords: xyType) {
     /* NOTE - Conditions & Scenarios
         0. Getting target coordinates
         1. Piece selection logic
@@ -137,9 +138,7 @@ export class Board {
       */
 
     // 0. Getting target coordinates
-    const target = Event.target as HTMLDivElement;
-    const cellCoords: xyType = target.dataset.coordinates as xyType;
-    const targetField = Board.getFieldLink(cellCoords);
+    const targetField = this.board[coords];
 
     // if we'll try to drag cells we'll receive Board component to target
     // console.log(target) // NOTE <-- Board
@@ -149,6 +148,7 @@ export class Board {
 
     // 1. Piece selection logic || Piece with same color already selected
     if (!this.selectedPiece || this.selectedPiece.color === piece?.color) {
+      console.log('1. Piece selection logic || Piece with same color already selected')
       if (this.selectedPiece === piece) {
         this.cancellHighlightingTargets();
         this.dropPiece();
@@ -171,16 +171,18 @@ export class Board {
       }
     } else {
       // 2. Piece already selected
-      // 2.2. Click to unavailable zone
       const targets = this.selectedPiece.targets;
-
-      if (cellCoords && !targets.some((el) => el === cellCoords)) {
+      
+      // 2.2. Click to unavailable zone
+      if (coords && !targets.some((el) => el === coords)) {
+        console.log('2.2. Click to unavailable zone')
         this.dropPiece();
       }
 
       //  2.3. Click to correct target
-      if (cellCoords && targets.some((el) => el === cellCoords)) {
-        const board = this.instance.board;
+      if (coords && targets.some((el) => el === coords)) {
+        console.log('2.3. Click to correct target')
+        const board = this.board;
 
         // TODO - En Passant special move
         /* 
@@ -188,7 +190,7 @@ export class Board {
           2. Add this coordinates to board.underEnPassantCoords[]
         */
 
-        this.selectedPiece.move(board, cellCoords);
+        this.selectedPiece.move(board, coords);
         this.dropPiece();
       }
 

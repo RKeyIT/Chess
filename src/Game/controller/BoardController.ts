@@ -1,13 +1,14 @@
-import React from 'react';
-import { Controller } from '.';
-import { Board } from '../model/BoardModel';
+import { Board, BoardTypeObject } from '../model/BoardModel';
+import { xyType } from '../model/Coordinates';
 
-export class BoardController extends Controller {
-  private constructor() {
-    super();
+export class BoardController {
+  private constructor() {}
+
+  static click(coords: xyType) {
+    Board.click(coords);
   }
 
-  static click(event: React.MouseEvent) {
-    Board.click(event);
+  static get board(): BoardTypeObject {
+    return Board.board;
   }
 }

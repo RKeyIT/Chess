@@ -1,10 +1,8 @@
 import { xyType } from '../model/Coordinates';
 import { Piece } from '../model/Piece/PieceModel';
-import { Controller } from './Controller';
 
-export class Movement extends Controller {
+export class Movement {
   private constructor() {
-    super();
   }
 
   static move(piece: Piece, xy: xyType): void {}

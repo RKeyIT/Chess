@@ -31,11 +31,16 @@ export function BoardComponent() {
   }
 
   function click(event: React.MouseEvent) {
-    BoardController.click(event);
-    setState((prev) => ({
-      ...prev,
-      view: renderBoard(),
-    }));
+    const target = event.target as HTMLDivElement;
+    const coords: xyType = target.dataset.coordinates as xyType;
+
+    BoardController.click(coords);
+    const updatedBoard = BoardController.board
+    
+    setState({
+        board: updatedBoard,
+        view: renderBoard(updatedBoard),
+      });
   }
 
   return (
